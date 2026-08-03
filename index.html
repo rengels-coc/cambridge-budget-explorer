@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Budget Explorer — City of Cambridge, Massachusetts</title>
+<meta name="description" content="Explore the City of Cambridge operating and capital budget. Spending by service area, department, division and line item, FY2011 to FY2027, from the City's open data.">
+<link rel="icon" href="assets/img/cambridge-seal.png" type="image/png">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<div class="utility-bar">
+  <div class="wrap">
+    <span class="utility-bar__city">City of Cambridge, Massachusetts</span>
+    <a class="utility-bar__tag" href="https://www.cambridgema.gov/departments/opendata">Open Data Program</a>
+  </div>
+</div>
+
+<header class="masthead">
+  <div class="wrap masthead__inner">
+    <div class="masthead__brand">
+      <img class="seal" src="assets/img/cambridge-seal.png" width="232" height="231"
+           alt="Seal of the City of Cambridge, Massachusetts, incorporated 1846">
+      <div class="masthead__titles">
+        <p class="masthead__eyebrow">Budget Office &middot; Finance Department</p>
+        <h1 class="masthead__title">Budget Explorer</h1>
+      </div>
+    </div>
+  </div>
+</header>
+
+<nav class="tabbar" aria-label="Budget Explorer sections">
+  <div class="wrap">
+    <div class="tabbar__list" role="tablist" aria-label="Budget Explorer sections">
+      <a class="tab" role="tab" id="tab-overview"  href="#/overview"  aria-controls="panel-overview">Overview</a>
+      <a class="tab" role="tab" id="tab-trends"    href="#/trends"    aria-controls="panel-trends">Trends</a>
+      <a class="tab" role="tab" id="tab-detail"    href="#/detail"    aria-controls="panel-detail">Budget&nbsp;detail</a>
+      <a class="tab" role="tab" id="tab-compare"   href="#/compare"   aria-controls="panel-compare">Compare&nbsp;years</a>
+      <a class="tab" role="tab" id="tab-revenues"  href="#/revenues"  aria-controls="panel-revenues">Revenues</a>
+      <a class="tab" role="tab" id="tab-capital"   href="#/capital"   aria-controls="panel-capital">Capital</a>
+      <a class="tab" role="tab" id="tab-documents" href="#/documents" aria-controls="panel-documents">Documents</a>
+      <a class="tab" role="tab" id="tab-faq"       href="#/faq"       aria-controls="panel-faq">FAQ</a>
+      <a class="tab" role="tab" id="tab-about"     href="#/about"     aria-controls="panel-about">About</a>
+    </div>
+  </div>
+</nav>
+
+<div class="subbar" id="subbar" hidden>
+  <div class="wrap subbar__inner">
+    <div class="subbar__control">
+      <label for="fy-select">Fiscal year</label>
+      <select id="fy-select" aria-describedby="fy-help"></select>
+      <span id="fy-help" class="subbar__help">July&nbsp;1 &ndash; June&nbsp;30</span>
+    </div>
+    <p class="subbar__total" id="subbar-total">&nbsp;</p>
+  </div>
+</div>
+
+<main id="main">
+
+  <section class="intro" id="intro">
+    <div class="wrap intro__inner">
+      <div class="intro__text">
+        <h2 class="intro__lede">Where Cambridge&rsquo;s money goes.</h2>
+        <p>Every dollar in the City&rsquo;s adopted operating budget &mdash; by service area,
+        department, division and individual line item. Choose a fiscal year to begin, drill
+        into any department, or compare years side by side.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap">
+
+    <div id="status" class="status" role="status" aria-live="polite">Loading budget data&hellip;</div>
+
+    <!-- ============================ Overview ============================ -->
+    <div class="tabpanel" role="tabpanel" id="panel-overview" aria-labelledby="tab-overview" tabindex="-1" hidden>
+
+      <section class="kpis" aria-label="Budget summary">
+        <article class="kpi kpi--primary">
+          <p class="kpi__label">Operating budget <span data-tip-concept="Operating vs. capital"></span></p>
+          <p class="kpi__value" id="kpi-total">&mdash;</p>
+          <p class="kpi__note" id="kpi-total-note">&nbsp;</p>
+        </article>
+        <article class="kpi">
+          <p class="kpi__label">Change from prior year</p>
+          <p class="kpi__value" id="kpi-change">&mdash;</p>
+          <p class="kpi__note" id="kpi-change-note">&nbsp;</p>
+        </article>
+        <article class="kpi">
+          <p class="kpi__label">Budgeted revenues <span data-tip-concept="Balanced budget"></span></p>
+          <p class="kpi__value" id="kpi-revenue">&mdash;</p>
+          <p class="kpi__note" id="kpi-revenue-note">&nbsp;</p>
+        </article>
+        <article class="kpi">
+          <p class="kpi__label">Capital budget</p>
+          <p class="kpi__value" id="kpi-capital">&mdash;</p>
+          <p class="kpi__note" id="kpi-capital-note">&nbsp;</p>
+        </article>
+      </section>
+
+      <section id="spending" class="panel">
+        <div class="panel__head">
+          <div>
+            <h2>Spending by service area</h2>
+            <p class="panel__sub" id="spending-sub">&nbsp;</p>
+          </div>
+          <button class="btn-ghost" type="button" data-toggle-table="service-table"
+                  aria-expanded="false" aria-controls="service-table">View as table</button>
+        </div>
+        <div id="service-chart" class="chart"></div>
+        <div id="service-table" class="table-wrap" hidden></div>
+      </section>
+
+      <section class="panel">
+        <div class="panel__head">
+          <div>
+            <h2>Spending by category</h2>
+            <p class="panel__sub">What the money is spent on, rather than who spends it.</p>
+          </div>
+        </div>
+        <div id="category-chart" class="chart"></div>
+      </section>
+
+      <p class="tab-jump">Next: <a href="#/detail">drill into a department &rarr;</a></p>
+    </div>
+
+    <!-- ============================= Trends ============================= -->
+    <div class="tabpanel" role="tabpanel" id="panel-trends" aria-labelledby="tab-trends" tabindex="-1" hidden>
+
+      <section id="trend" class="panel">
+        <div class="panel__head">
+          <div>
+            <h2>Budget over time</h2>
+            <p class="panel__sub">Adopted operating budget, FY2011 &ndash; FY2027.</p>
+          </div>
+        </div>
+        <div id="trend-chart" class="chart"></div>
+      </section>
+
+      <section id="composition" class="panel">
+        <div class="panel__head">
+          <div>
+            <h2>How the mix has changed</h2>
+            <p class="panel__sub">Operating budget by service area, every year. Hover any
+            segment for its share of that year&rsquo;s budget.</p>
+          </div>
+          <button class="btn-ghost" type="button" data-toggle-table="composition-table"
+                  aria-expanded="false" aria-controls="composition-table">View as table</button>
+        </div>
+        <div id="composition-legend" class="legend"></div>
+        <div id="composition-chart" class="chart"></div>
+        <div id="composition-table" class="table-wrap" hidden></div>
+      </section>
+    </div>
+
+    <!-- ========================== Budget detail ========================= -->
+    <div class="tabpanel" role="tabpanel" id="panel-detail" aria-labelledby="tab-detail" tabindex="-1" hidden>
+      <section id="detail" class="panel">
+        <div class="panel__head">
+          <div>
+            <h2>Budget detail</h2>
+            <p class="panel__sub" id="detail-sub">&nbsp;</p>
+          </div>
+          <div class="panel__tools">
+            <label class="sr-only" for="detail-search">Search line items</label>
+            <input id="detail-search" type="search" placeholder="Search all line items&hellip;" autocomplete="off">
+            <button class="btn-ghost" type="button" id="detail-expand">Expand all</button>
+            <button class="btn" type="button" id="detail-export">Download CSV</button>
+          </div>
+        </div>
+        <p class="hint">Service area &rsaquo; department &rsaquo; division &rsaquo; category &rsaquo; line item.
+        Select any row to open it.</p>
+        <div id="detail-tree" class="tree"></div>
+      </section>
+    </div>
+
+    <!-- ========================== Compare years ========================= -->
+    <div class="tabpanel" role="tabpanel" id="panel-compare" aria-labelledby="tab-compare" tabindex="-1" hidden>
+      <section id="compare" class="panel">
+        <div class="panel__head">
+          <div>
+            <h2>Compare fiscal years</h2>
+            <p class="panel__sub" id="compare-sub">&nbsp;</p>
+          </div>
+          <div class="panel__tools">
+            <label class="sr-only" for="compare-search">Search</label>
+            <input id="compare-search" type="search" placeholder="Search&hellip;" autocomplete="off">
+            <button class="btn" type="button" id="compare-export">Download CSV</button>
+          </div>
+        </div>
+
+        <fieldset class="yearpick">
+          <legend>Years shown</legend>
+          <div id="compare-years" class="yearpick__list"></div>
+          <div class="yearpick__actions">
+            <button class="btn-ghost btn-ghost--sm" type="button" data-years="recent3">Last 3</button>
+            <button class="btn-ghost btn-ghost--sm" type="button" data-years="recent5">Last 5</button>
+            <button class="btn-ghost btn-ghost--sm" type="button" data-years="decade">Every 5th</button>
+            <button class="btn-ghost btn-ghost--sm" type="button" data-years="all">All</button>
+          </div>
+        </fieldset>
+
+        <div id="compare-table" class="table-wrap"></div>
+
+        <p class="caveat">
+          <strong>Reading across years.</strong> The City relabels departments and
+          service areas from time to time &mdash; &ldquo;Police&rdquo; became
+          &ldquo;Police Department&rdquo; in FY2027, and &ldquo;Community Maintenance and
+          Development&rdquo; became &ldquo;Community Maintenance.&rdquo; Those are folded
+          together here so each line stays continuous; the full list is in
+          <code>content/aliases.json</code>. Two real accounting changes are not
+          folded, because they moved money rather than renaming it: employee
+          benefits were centralised into General Government in FY2026 (which is why
+          Public Safety appears to fall that year), and Public Works was reorganised
+          in FY2027. Compare the citywide total across years with confidence;
+          compare an individual department across FY2025&ndash;FY2027 with care.
+        </p>
+      </section>
+    </div>
+
+    <!-- ============================ Revenues ============================ -->
+    <div class="tabpanel" role="tabpanel" id="panel-revenues" aria-labelledby="tab-revenues" tabindex="-1" hidden>
+      <section id="revenues" class="panel">
+        <div class="panel__head">
+          <div>
+            <h2>Where the money comes from</h2>
+            <p class="panel__sub" id="revenue-sub">&nbsp;</p>
+          </div>
+          <button class="btn-ghost" type="button" data-toggle-table="revenue-detail"
+                  aria-expanded="false" aria-controls="revenue-detail">Show detail</button>
+        </div>
+        <div id="revenue-chart" class="chart"></div>
+        <div id="revenue-detail" class="tree" hidden></div>
+      </section>
+    </div>
+
+    <!-- ============================ Capital ============================= -->
+    <div class="tabpanel" role="tabpanel" id="panel-capital" aria-labelledby="tab-capital" tabindex="-1" hidden>
+      <section id="capital" class="panel">
+        <div class="panel__head">
+          <div>
+            <h2>Capital projects</h2>
+            <p class="panel__sub" id="capital-sub">Largest approved capital funding for the selected year.</p>
+          </div>
+          <button class="btn" type="button" id="capital-export">Download CSV</button>
+        </div>
+        <div id="capital-table" class="table-wrap"></div>
+      </section>
+    </div>
+
+    <!-- =========================== Documents =========================== -->
+    <div class="tabpanel" role="tabpanel" id="panel-documents" aria-labelledby="tab-documents" tabindex="-1" hidden>
+      <section id="documents" class="panel">
+        <div class="panel__head">
+          <div>
+            <h2>Documents &amp; resources</h2>
+            <p class="panel__sub">The budget documents, data sources and decision-making
+            records behind this page.</p>
+          </div>
+        </div>
+        <div id="documents-body"></div>
+      </section>
+    </div>
+
+    <!-- ============================== FAQ =============================== -->
+    <div class="tabpanel" role="tabpanel" id="panel-faq" aria-labelledby="tab-faq" tabindex="-1" hidden>
+      <section id="faq" class="panel">
+        <div class="panel__head">
+          <div>
+            <h2>Frequently asked questions</h2>
+            <p class="panel__sub">Common questions about how to read these numbers.</p>
+          </div>
+        </div>
+        <div id="faq-body"></div>
+      </section>
+    </div>
+
+    <!-- ============================= About ============================== -->
+    <div class="tabpanel" role="tabpanel" id="panel-about" aria-labelledby="tab-about" tabindex="-1" hidden>
+      <section id="about" class="panel panel--quiet">
+        <h2>About this data</h2>
+        <div class="about-grid">
+          <div>
+            <h3>Source</h3>
+            <p>All figures come directly from the City&rsquo;s open data portal,
+            <a href="https://data.cambridgema.gov/">data.cambridgema.gov</a> &mdash; the same
+            datasets the Budget Office already publishes:</p>
+            <ul>
+              <li><a href="https://data.cambridgema.gov/d/5bn4-5wey">Budget &ndash; Operating Expenditures</a></li>
+              <li><a href="https://data.cambridgema.gov/d/ixyv-mje6">Budget &ndash; Operating Revenues</a></li>
+              <li><a href="https://data.cambridgema.gov/d/9chi-2ed3">Budget &ndash; Capital</a></li>
+            </ul>
+          </div>
+          <div>
+            <h3>What these numbers are</h3>
+            <p>These are <strong>budgeted</strong> amounts &mdash; the spending and revenue
+            adopted in the City&rsquo;s annual budget. They are not year-end actuals, and they
+            are not a checkbook register of individual payments.</p>
+            <p>Cambridge&rsquo;s fiscal year runs from July 1 to June 30. FY2027 means
+            July 1, 2026 through June 30, 2027.</p>
+          </div>
+          <div>
+            <h3>A note on precision</h3>
+            <p>Some departments list multiple line items with identical descriptions in the
+            same year. That is deliberate: the City tracks charges separately across
+            departmental cost centers, and this view preserves the original structure rather
+            than collapsing it.</p>
+            <p>Every yearly total is reconciled against the portal&rsquo;s own figures when this
+            page is built. If they disagree, the build fails rather than publishing numbers
+            that don&rsquo;t tie out.</p>
+            <p id="freshness" class="freshness">&nbsp;</p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap site-footer__inner">
+    <div>
+      <p class="site-footer__title">City of Cambridge Budget Explorer</p>
+      <p class="site-footer__note">Proof of concept &mdash; not an official City page.
+      Built as a static site with no server, no database and no third-party JavaScript.</p>
+    </div>
+    <div>
+      <p class="site-footer__note">Data is public domain, published by the City of Cambridge.
+      Questions about the budget go to the
+      <a href="https://www.cambridgema.gov/budget">Budget Office</a>.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+{
+  "_comment": "Plain-language definitions shown as tooltips next to budget terms. Edit this file to change them — no code, no database, no admin login. Keys must match the values in the data exactly. STATUS: DRAFT written by IT from standard Massachusetts municipal accounting usage. Every entry needs Budget Office review before this page is published.",
+  "_status": "draft-needs-budget-office-review",
+  "categories": {
+    "Salaries & Wages": "Pay for City employees — permanent and temporary salaries, overtime, and employee benefits charged to a department. This is the single largest share of the operating budget, which is typical for a city that mainly delivers services through its own staff. Beginning in FY2026, health insurance and pension costs were moved out of departmental salary lines and budgeted centrally under Employee Benefits, so this category is smaller from FY2026 onward for reasons that have nothing to do with staffing.",
+    "Other Ordinary Maintenance": "The routine, recurring cost of running a department other than payroll: supplies, utilities, contracted services, equipment maintenance, insurance and similar day-to-day expenses.",
+    "Extraordinary Expenditures": "Large or non-routine costs that fall outside normal operations — typically major equipment purchases and one-time expenses. Despite the name, these are planned and appropriated like any other line.",
+    "Travel & Training": "Conference fees, professional development, certification, and work-related travel. Consistently the smallest category, well under one percent of the budget. Written \"Travel and Training\" through FY2025."
+  },
+  "services": {
+    "Education": "The Cambridge Public Schools appropriation. It appears in the City budget as a single transfer to the School Department, which adopts its own detailed budget through the School Committee.",
+    "General Government": "Citywide administrative and financial functions — the Executive office, Finance, Law, Human Resources, the City Council and City Clerk — plus centrally-budgeted costs such as employee benefits that are not charged to a single department.",
+    "Public Safety": "Police, Fire, Emergency Communications, Inspectional Services, Traffic and Parking, and the License Commission.",
+    "Human Resource": "Cambridge's term for direct human services rather than personnel administration: the Human Services department, the Library, and Veterans' Services. Labelled \"Human Resources and Development\" through FY2022 and \"Human Resource Development\" through FY2026; the three names are combined here. Not the same as the Human Resources department, which handles City personnel and sits under General Government.",
+    "Community Maintenance": "The departments that build and maintain the physical city — Public Works, Water, Community Development, Housing, and debt service on capital borrowing. Called \"Community Maintenance and Development\" through FY2026.",
+    "Intergovernmental": "Payments the City is obligated to make to other government bodies, including MWRA water and sewer assessments, Cherry Sheet assessments charged by the Commonwealth, and the Cambridge Health Alliance."
+  },
+  "funds": {
+    "General Fund": "The City's main operating account. Most tax revenue goes in and most City services are paid out of it.",
+    "School General Fund": "The portion of the General Fund appropriated to the Cambridge Public Schools. Called the \"School Fund\" from FY2017 through FY2026.",
+    "Parking Fund": "An enterprise fund supported by parking meter and permit revenue rather than the tax levy. By law it is accounted for separately.",
+    "Water Funds": "An enterprise fund supported by water rates. Water operations are expected to pay for themselves from what customers are billed. Called the \"Water Fund\" through FY2025.",
+    "CDBG": "Community Development Block Grant — federal money from HUD, restricted to eligible community development activities and tracked separately from City tax dollars.",
+    "CDBG Human Services": "The share of the Community Development Block Grant directed to human services programs."
+  },
+  "revenueCategories": {
+    "Taxes": "Chiefly the property tax levy, plus local option taxes such as the meals and hotel/motel excise and motor vehicle excise. The largest source of City revenue by a wide margin.",
+    "Charges for Service": "What the City bills users directly for specific services — water and sewer charges, parking, permits tied to a service, and program fees. Written \"Charges For Services\" through FY2026.",
+    "Intergovernmental Revenue": "Money received from the Commonwealth and the federal government, including Chapter 70 education aid and other Cherry Sheet distributions.",
+    "Licenses and Permits": "Fees paid to obtain a license or permit — building permits, business and liquor licenses, and similar authorizations.",
+    "Fines and Forfeits": "Penalties collected by the City, most visibly parking tickets and other code enforcement fines. Written \"Fines & Forfeits\" through FY2026.",
+    "Miscellaneous Revenue": "Everything that does not fit the other categories — investment income, reimbursements, sales of property, and transfers from reserves."
+  },
+  "concepts": {
+    "Fiscal year": "Cambridge's budget year runs July 1 through June 30. FY2027 means July 1, 2026 through June 30, 2027, so it is largely a forward-looking budget.",
+    "Budgeted vs. actual": "Every figure on this page is a BUDGETED amount — what was adopted in the annual budget. These are not year-end actual results and not a record of individual payments.",
+    "Balanced budget": "Massachusetts requires municipalities to adopt a balanced budget, which is why total budgeted revenues equal total appropriations exactly in every year shown.",
+    "Operating vs. capital": "The operating budget pays for year-to-year running costs. The capital budget pays for long-lived assets such as buildings, streets and major equipment, usually financed by borrowing and repaid over time through debt service.",
+    "Debt service": "Principal and interest paid on money the City has borrowed for capital projects. It appears in the operating budget even though the projects it financed are capital."
+  }
+}

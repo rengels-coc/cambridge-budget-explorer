@@ -1,0 +1,127 @@
+{
+  "generated": "2026-07-29",
+  "generatedAt": "2026-07-29T16:45:09.166Z",
+  "source": "https://data.cambridgema.gov",
+  "datasets": {
+    "expenditures": "5bn4-5wey",
+    "revenues": "ixyv-mje6",
+    "capital": "9chi-2ed3"
+  },
+  "years": [
+    "2011",
+    "2012",
+    "2013",
+    "2014",
+    "2015",
+    "2016",
+    "2017",
+    "2018",
+    "2019",
+    "2020",
+    "2021",
+    "2022",
+    "2023",
+    "2024",
+    "2025",
+    "2026",
+    "2027"
+  ],
+  "index": {
+    "2011": {
+      "total": 459705025,
+      "departments": 38,
+      "lineItems": 3083
+    },
+    "2012": {
+      "total": 472196095,
+      "departments": 38,
+      "lineItems": 3044
+    },
+    "2013": {
+      "total": 488228565,
+      "departments": 38,
+      "lineItems": 3211
+    },
+    "2014": {
+      "total": 507186337,
+      "departments": 38,
+      "lineItems": 2601
+    },
+    "2015": {
+      "total": 524401817,
+      "departments": 38,
+      "lineItems": 2873
+    },
+    "2016": {
+      "total": 545870875,
+      "departments": 38,
+      "lineItems": 1320
+    },
+    "2017": {
+      "total": 574562125,
+      "departments": 37,
+      "lineItems": 2387
+    },
+    "2018": {
+      "total": 605031310,
+      "departments": 37,
+      "lineItems": 2373
+    },
+    "2019": {
+      "total": 636451110,
+      "departments": 37,
+      "lineItems": 2388
+    },
+    "2020": {
+      "total": 678384235,
+      "departments": 35,
+      "lineItems": 2411
+    },
+    "2021": {
+      "total": 715264225,
+      "departments": 35,
+      "lineItems": 2422
+    },
+    "2022": {
+      "total": 748220690,
+      "departments": 35,
+      "lineItems": 2417
+    },
+    "2023": {
+      "total": 801451870,
+      "departments": 36,
+      "lineItems": 2457
+    },
+    "2024": {
+      "total": 883773885,
+      "departments": 37,
+      "lineItems": 2443
+    },
+    "2025": {
+      "total": 955584350,
+      "departments": 40,
+      "lineItems": 2444
+    },
+    "2026": {
+      "total": 992181320,
+      "departments": 40,
+      "lineItems": 1872
+    },
+    "2027": {
+      "total": 1032959502,
+      "departments": 40,
+      "lineItems": 1638
+    }
+  },
+  "counts": {
+    "expenditures": 41384,
+    "revenues": 3730,
+    "capital": 709
+  },
+  "aliasesApplied": {
+    "service": 3,
+    "department_name": 19,
+    "category": 4,
+    "fund": 3
+  }
+}

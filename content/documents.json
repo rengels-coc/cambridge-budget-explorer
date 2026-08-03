@@ -1,0 +1,89 @@
+{
+  "_comment": "Curated links and documents, grouped by category. Edit this file to add, remove or reorder entries — no code, no database, no admin login. Every URL here was checked and returned HTTP 200 on 2026-07-29. Add PDFs by dropping them in files/ and pointing url at files/your-doc.pdf.",
+
+  "categories": [
+    {
+      "id": "budget-documents",
+      "label": "Budget documents",
+      "blurb": "The adopted budget and the materials that go with it.",
+      "items": [
+        {
+          "title": "Budget Office",
+          "url": "https://www.cambridgema.gov/budget",
+          "note": "The City's budget homepage, including the adopted budget book and budget-in-brief."
+        },
+        {
+          "title": "Finance Department",
+          "url": "https://www.cambridgema.gov/departments/finance",
+          "note": "Comprehensive Annual Financial Report, audits, and financial policies."
+        },
+        {
+          "title": "Board of Assessors",
+          "url": "https://www.cambridgema.gov/departments/assessing",
+          "note": "Property values, the tax rate, and how the levy is set."
+        }
+      ]
+    },
+    {
+      "id": "open-data",
+      "label": "Open data",
+      "blurb": "The machine-readable sources behind every figure on this page.",
+      "items": [
+        {
+          "title": "Budget \u2014 Operating Expenditures",
+          "url": "https://data.cambridgema.gov/d/5bn4-5wey",
+          "note": "Dataset 5bn4-5wey. Budgeted spending by service area, department, division, category and line item, FY2011 onward."
+        },
+        {
+          "title": "Budget \u2014 Operating Revenues",
+          "url": "https://data.cambridgema.gov/d/ixyv-mje6",
+          "note": "Dataset ixyv-mje6. Budgeted revenue by source."
+        },
+        {
+          "title": "Budget \u2014 Capital",
+          "url": "https://data.cambridgema.gov/d/9chi-2ed3",
+          "note": "Dataset 9chi-2ed3. Approved capital project funding, including project locations."
+        },
+        {
+          "title": "Cambridge Open Data Portal",
+          "url": "https://data.cambridgema.gov/",
+          "note": "Everything else the City publishes as open data."
+        }
+      ]
+    },
+    {
+      "id": "decisions",
+      "label": "How the budget is decided",
+      "blurb": "Who adopts the budget, and where the public can weigh in.",
+      "items": [
+        {
+          "title": "City Council",
+          "url": "https://www.cambridgema.gov/citycouncil",
+          "note": "The Council holds budget hearings each spring and votes to adopt the budget."
+        },
+        {
+          "title": "City Clerk",
+          "url": "https://www.cambridgema.gov/cityclerk",
+          "note": "Meeting agendas, minutes and official records."
+        }
+      ]
+    },
+    {
+      "id": "other-views",
+      "label": "Other budget views",
+      "blurb": "Other City budget tools, listed so you can compare.",
+      "items": [
+        {
+          "title": "Cambridge Open Budget (Questica)",
+          "url": "https://cambridge.openbook.questica.com/",
+          "note": "The City's Questica-hosted budget portal."
+        },
+        {
+          "title": "Open Budget (Socrata)",
+          "url": "https://budget.data.cambridgema.gov/",
+          "note": "The older Socrata Open Budget view."
+        }
+      ]
+    }
+  ]
+}

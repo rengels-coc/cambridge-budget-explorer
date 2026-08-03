@@ -1,0 +1,59 @@
+{
+  "_comment": "Frequently asked questions. Edit this file to change them — no code, no database, no admin login. Answers may contain a few inline tags: <strong>, <em>, <a href>, <p>. STATUS: DRAFT written by IT. Needs Budget Office review before publishing, particularly anything describing process or dates.",
+  "_status": "draft-needs-budget-office-review",
+  "faqs": [
+    {
+      "q": "Are these numbers what the City actually spent?",
+      "a": "<p>No. Every figure on this page is a <strong>budgeted</strong> amount — what was adopted in the City's annual budget for that year. They are not year-end actual results, and they are not a record of individual payments or contracts.</p><p>Actual results are reported separately in the City's annual financial report, published by the <a href=\"https://www.cambridgema.gov/departments/finance\">Finance Department</a>.</p>"
+    },
+    {
+      "q": "What is a fiscal year?",
+      "a": "<p>Cambridge's budget year runs from July 1 to June 30, so it does not line up with the calendar year. FY2027 means July 1, 2026 through June 30, 2027.</p><p>Because the budget is adopted before the year begins, the most recent fiscal year shown here is generally a plan rather than a history.</p>"
+    },
+    {
+      "q": "Why do budgeted revenues exactly equal budgeted spending?",
+      "a": "<p>Massachusetts law requires municipalities to adopt a balanced budget. Planned spending cannot exceed projected revenue, so the two totals match exactly in every year shown here. That is a legal requirement, not a rounding coincidence and not an error in this page.</p>"
+    },
+    {
+      "q": "Why is the School Department a single line?",
+      "a": "<p>The City appropriates money to the Cambridge Public Schools as one transfer. The School Committee then adopts its own detailed budget for how that money is used.</p><p>That detail is real and public, but it lives in the School Department's budget rather than in the City expenditure dataset behind this page, which is why the drill-down stops at the top level for Education.</p>"
+    },
+    {
+      "q": "What is the difference between the operating and capital budgets?",
+      "a": "<p>The <strong>operating budget</strong> pays for the year-to-year cost of running the City — salaries, supplies, utilities, contracted services.</p><p>The <strong>capital budget</strong> pays for long-lived assets: buildings, streets, water infrastructure, major equipment. Capital work is usually financed by borrowing, and the repayments show up in the operating budget as debt service.</p>"
+    },
+    {
+      "q": "Why do some line items repeat with the same description?",
+      "a": "<p>The City tracks charges separately across departmental divisions and cost centers, so the same description can legitimately appear more than once within a department in the same year.</p><p>This page preserves the original structure rather than collapsing those rows together, so the detail you see matches the published data exactly.</p>"
+    },
+    {
+      "q": "Why does the number of line items change so much between years?",
+      "a": "<p>The level of detail published has varied. FY2016 has about 1,300 line items while FY2013 has over 3,200, even though the FY2016 budget is larger.</p><p>Yearly totals are consistent and reconcile exactly against the source. But if you are comparing the <em>number</em> of detail rows between years, expect the granularity — not the spending — to be what changed.</p>"
+    },
+    {
+      "q": "Why does a department seem to appear or disappear between years?",
+      "a": "<p>Usually because it was renamed, not because it went away. The published data records whatever label was in use that fiscal year, so &ldquo;Police&rdquo; (FY2011&ndash;FY2026) and &ldquo;Police Department&rdquo; (FY2027) are the same department under two names. Left alone, a year-over-year table would show one ending and the other starting.</p><p>This page folds those historical labels onto the current one so each line stays continuous. The complete list of what was folded &mdash; about thirty labels across service areas, departments, spending categories and funds &mdash; is published alongside the site in <code>content/aliases.json</code>. Nothing is merged silently.</p>"
+    },
+    {
+      "q": "Why did Public Safety appear to shrink in FY2026?",
+      "a": "<p>It did not. Employee benefits &mdash; health insurance, pensions and related costs &mdash; were previously carried inside the departments that incurred them. Beginning in FY2026 they are budgeted centrally, in a single Employee Benefits line under General Government.</p><p>That single change moved about $113 million on paper: Public Safety salaries and wages fall from $180.9 million in FY2025 to $120.1 million in FY2026, while the central Insurance and Pensions lines rise by $74.2 million and $33.3 million. Public Safety and other service areas look smaller from FY2026 onward, and General Government looks much larger, without anyone's actual staffing or service level changing. The citywide total is unaffected.</p><p>This is a real accounting change rather than a relabelling, so it is <em>not</em> adjusted for on this page. Citywide totals compare cleanly across all years; individual service areas do not compare cleanly across the FY2025&ndash;FY2026 boundary.</p>"
+    },
+    {
+      "q": "Public Works is one department here but three in the FY2027 budget. Why?",
+      "a": "<p>FY2027 splits the former single Public Works department into Planning &amp; Administration, Service Programs, and Support Services. To keep the department comparable with earlier years, this page presents them as one Public Works line. Every division underneath is still shown individually in the drill-down, so no detail is lost &mdash; expand Public Works to see it.</p>"
+    },
+    {
+      "q": "Where does this page get its data?",
+      "a": "<p>Directly from the City's open data portal at <a href=\"https://data.cambridgema.gov/\">data.cambridgema.gov</a>, using the same three public datasets the Budget Office already publishes. There is no separate copy of the budget maintained for this page.</p><p>Every total shown is reconciled against the portal's own figures when the page is built. If they disagree, the build fails rather than publishing numbers that do not tie out.</p>"
+    },
+    {
+      "q": "Can I download the data?",
+      "a": "<p>Yes. Every table on this page has a CSV download button, and the underlying datasets are available in full from the open data portal in CSV, JSON and other formats.</p><p>The data is public domain. You do not need permission or an account to use it.</p>"
+    },
+    {
+      "q": "I think something here is wrong. Who do I tell?",
+      "a": "<p>Please contact the <a href=\"https://www.cambridgema.gov/budget\">Budget Office</a>. It helps to include the fiscal year, the department or line item, and what you expected to see.</p><p>If a figure on this page disagrees with the published budget document, the budget document is authoritative.</p>"
+    }
+  ]
+}
+

@@ -1,0 +1,88 @@
+{
+  "_comment": [
+    "The City has renamed service areas, departments, spending categories and",
+    "funds several times between FY2011 and FY2027. The published open data keeps",
+    "whatever label was in use that year, so a naive year-over-year comparison",
+    "shows the same department twice - once ending and once starting - instead of",
+    "one continuous line.",
+    "",
+    "This file folds historical labels onto the current one. The rule used is:",
+    "the canonical name is the FY2027 spelling, because that is what the current",
+    "adopted budget document says and a resident checking this page against the",
+    "budget book should find the same words. Historical spellings are recorded in",
+    "content/glossary.json so nothing is hidden.",
+    "",
+    "The build script reports any label that does not appear in every fiscal year",
+    "and is not listed here, so future renames get noticed rather than silently",
+    "producing a broken comparison.",
+    "",
+    "Format: field -> { historical label: current label }.",
+    "Applied to expenditures, revenues and capital alike."
+  ],
+  "_status": "draft-needs-budget-office-review",
+
+  "service": {
+    "Human Resources and Development": "Human Resource",
+    "Human Resource Development": "Human Resource",
+    "Community Maintenance and Development": "Community Maintenance"
+  },
+
+  "department_name": {
+    "Animal Commission": "Animal Control",
+    "Cable Television": "Cable TV",
+    "Cherry Sheet": "Cherry Sheet Assessments",
+    "Commission on the Status of Women": "Women's Commission",
+    "Education": "School Organization",
+    "Election Commission": "Election",
+    "Fire": "Fire Department",
+    "Human Rights Commission": "Human Rights",
+    "Massachusetts Water Resources Authority": "MWRA",
+    "Police": "Police Department",
+    "Public Celebrations": "Arts Council",
+    "Traffic, Parking, and Transportation": "Transportation",
+    "Veterans' Services": "Veteran's Administration",
+    "Veterans Services": "Veteran's Administration",
+    "Water": "Water Department",
+    "DHSP": "Human Services",
+
+    "_publicWorksComment": [
+      "FY2027 splits the former single Public Works department into three.",
+      "Folding them back keeps the department-level comparison continuous; the",
+      "drill-down still shows every division underneath, so no detail is lost."
+    ],
+    "Public Works - Planning & Administration": "Public Works",
+    "Public Works - Service Programs": "Public Works",
+    "Public Works - Support Services": "Public Works"
+  },
+
+  "category": {
+    "Salaries and Wages": "Salaries & Wages",
+    "Travel and Training": "Travel & Training",
+    "Fines & Forfeits": "Fines and Forfeits",
+    "Charges For Services": "Charges for Service"
+  },
+
+  "fund": {
+    "Water Fund": "Water Funds",
+    "School Fund": "School General Fund",
+    "Non Capital Public Invest Appr": "Non Capital Public Invt Appr"
+  },
+
+  "_notAliased": {
+    "_comment": [
+      "Labels that stop or start mid-range but are NOT renames as far as we can",
+      "tell. Listed so nobody assumes the omission was an oversight. The Budget",
+      "Office should confirm."
+    ],
+    "Conservation Commission": "expenditures FY2011-FY2016 only; no obvious successor",
+    "Weights & Measures": "FY2011-FY2019 only; likely absorbed elsewhere",
+    "General Services": "FY2011-FY2019 only; likely absorbed elsewhere",
+    "Electrical": "FY2011-FY2023 only; likely absorbed into Public Works",
+    "CDBG Historical": "fund, FY2011-FY2015 only; distinct from CDBG",
+    "Community Safety": "genuinely new in FY2023",
+    "Office of Sustainability": "genuinely new in FY2025",
+    "Equity and Inclusion": "genuinely new in FY2025",
+    "Housing": "genuinely new in FY2025",
+    "Capital Building Projects": "genuinely new in FY2024"
+  }
+}

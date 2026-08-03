@@ -1,0 +1,63 @@
+name: Build snapshot and deploy to Pages
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    # 06:15 UTC daily — roughly 1:15am Eastern
+    - cron: "15 6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      # No npm install: the build script uses only Node built-ins.
+      - name: Build data snapshot from data.cambridgema.gov
+        run: node scripts/build-data.mjs
+
+      - name: Show what was produced
+        run: ls -lh data/
+
+      # Gate the deploy on the browser tests. build-data.mjs already fails the
+      # job if its totals disagree with Socrata's own sums; this checks that the
+      # page actually renders those totals correctly once a browser runs it.
+      - name: Run interaction tests
+        run: |
+          python3 -m http.server 8080 --directory . &
+          for i in $(seq 1 20); do
+            curl -fsS http://localhost:8080/ >/dev/null && break
+            sleep 1
+          done
+          node scripts/interaction-test.mjs http://localhost:8080/
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

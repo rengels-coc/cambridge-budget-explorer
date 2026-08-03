@@ -1,0 +1,156 @@
+{
+  "note": "Labels that do not appear in every fiscal year after aliasing. Some are genuine (a department that did not exist yet); others may be renames that should be added to content/aliases.json.",
+  "builtAt": "2026-07-29T16:45:08.965Z",
+  "gaps": [
+    {
+      "field": "department_name",
+      "label": "Capital Building Projects",
+      "min": "2024",
+      "max": "2027"
+    },
+    {
+      "field": "department_name",
+      "label": "Community Safety",
+      "min": "2023",
+      "max": "2027"
+    },
+    {
+      "field": "department_name",
+      "label": "Conservation Commission",
+      "min": "2011",
+      "max": "2016"
+    },
+    {
+      "field": "department_name",
+      "label": "Electrical",
+      "min": "2011",
+      "max": "2023"
+    },
+    {
+      "field": "department_name",
+      "label": "Equity and Inclusion",
+      "min": "2025",
+      "max": "2027"
+    },
+    {
+      "field": "department_name",
+      "label": "General Services",
+      "min": "2011",
+      "max": "2019"
+    },
+    {
+      "field": "department_name",
+      "label": "Housing",
+      "min": "2025",
+      "max": "2027"
+    },
+    {
+      "field": "department_name",
+      "label": "Human Resources",
+      "min": "2024",
+      "max": "2027"
+    },
+    {
+      "field": "department_name",
+      "label": "Office of Sustainability",
+      "min": "2025",
+      "max": "2027"
+    },
+    {
+      "field": "department_name",
+      "label": "Weights & Measures",
+      "min": "2011",
+      "max": "2019"
+    },
+    {
+      "field": "fund",
+      "label": "CDBG Historical",
+      "min": "2011",
+      "max": "2015"
+    },
+    {
+      "field": "fund",
+      "label": "School General Fund",
+      "min": "2017",
+      "max": "2027"
+    },
+    {
+      "field": "department_name",
+      "label": "Capital Building Projects",
+      "min": "2024",
+      "max": "2027"
+    },
+    {
+      "field": "department_name",
+      "label": "Community Safety",
+      "min": "2023",
+      "max": "2027"
+    },
+    {
+      "field": "department_name",
+      "label": "Conservation Commission",
+      "min": "2011",
+      "max": "2016"
+    },
+    {
+      "field": "department_name",
+      "label": "Electrical",
+      "min": "2011",
+      "max": "2023"
+    },
+    {
+      "field": "department_name",
+      "label": "Equity and Inclusion",
+      "min": "2025",
+      "max": "2027"
+    },
+    {
+      "field": "department_name",
+      "label": "General Services",
+      "min": "2011",
+      "max": "2019"
+    },
+    {
+      "field": "department_name",
+      "label": "Housing",
+      "min": "2025",
+      "max": "2027"
+    },
+    {
+      "field": "department_name",
+      "label": "Human Resources",
+      "min": "2024",
+      "max": "2027"
+    },
+    {
+      "field": "department_name",
+      "label": "Office of Sustainability",
+      "min": "2025",
+      "max": "2027"
+    },
+    {
+      "field": "department_name",
+      "label": "Weights & Measures",
+      "min": "2011",
+      "max": "2019"
+    },
+    {
+      "field": "fund",
+      "label": "CDBG",
+      "min": "2027",
+      "max": "2027"
+    },
+    {
+      "field": "fund",
+      "label": "CDBG Human Services",
+      "min": "2027",
+      "max": "2027"
+    },
+    {
+      "field": "fund",
+      "label": "School General Fund",
+      "min": "2017",
+      "max": "2027"
+    }
+  ]
+}
