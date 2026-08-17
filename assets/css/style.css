@@ -581,6 +581,53 @@ table.cmp tfoot th, table.cmp tfoot td {
 }
 
 .chg { font-weight: 600; font-variant-numeric: tabular-nums; }
+
+/* ---------- Comparison: the two pinned columns ---------- */
+
+/* Year headings are buttons so the pair can be changed by clicking the table
+   itself rather than hunting for a control above it. The cell gives up its own
+   padding so the button fills it and its label still lines up with the figures
+   below. */
+table.cmp thead th.cmp-yr { padding: 0; }
+.cmp-hd {
+  display: flex; flex-direction: column; align-items: flex-end; gap: 3px;
+  width: 100%; margin: 0; padding: 10px 12px;
+  background: none; border: 0; cursor: pointer;
+  font: inherit; color: inherit; letter-spacing: inherit; text-transform: inherit;
+}
+.cmp-hd:hover { background: rgba(33,58,127,.09); color: var(--navy); }
+.cmp-hd:focus-visible { outline: 3px solid var(--c2); outline-offset: -3px; }
+.cmp-hd__yr { font-variant-numeric: tabular-nums; }
+.cmp-hd__sub {
+  display: block; margin-top: 3px; font-size: 11px;
+  letter-spacing: .02em; text-transform: none; color: var(--navy);
+}
+
+.cmp-badge {
+  display: inline-block; padding: 1px 6px; border-radius: 2px;
+  background: var(--navy); color: #fff;
+  font-size: 10px; font-weight: 700; letter-spacing: .07em;
+}
+.cmp-badge--pick { background: var(--red); }
+
+/* Tint the full height of the compared columns so the eye can follow them down
+   a long table without counting across. */
+table.cmp .cmp-col--from { background: #e8ecf6; }
+table.cmp .cmp-col--to   { background: #dbe3f4; }
+table.cmp .cmp-col--pick { background: #fdeaea; }
+table.cmp .cmp-col--chg  { background: #f4f6fb; }
+table.cmp thead .cmp-col--from,
+table.cmp thead .cmp-col--to,
+table.cmp thead .cmp-col--pick { color: var(--navy); }
+table.cmp thead .cmp-col--pick { color: var(--red); }
+
+/* Vertical edges make the pair read as two blocks rather than tinted cells. */
+table.cmp .cmp-col--from { box-shadow: inset 2px 0 0 var(--navy), inset -2px 0 0 var(--navy); }
+table.cmp .cmp-col--to   { box-shadow: inset 2px 0 0 var(--navy), inset -2px 0 0 var(--navy); }
+table.cmp .cmp-col--pick { box-shadow: inset 2px 0 0 var(--red), inset -2px 0 0 var(--red); }
+table.cmp tfoot .cmp-col--from,
+table.cmp tfoot .cmp-col--to { background: #ccd6ec; }
+
 .caveat {
   margin: 18px 0 0; padding: 12px 14px;
   border-left: 3px solid var(--navy); background: var(--navy-tint);

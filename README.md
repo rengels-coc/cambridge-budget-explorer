@@ -20,7 +20,7 @@ Built as a proof of concept for the City of Cambridge.
 | **Budget over time** | Seventeen fiscal years, selected year highlighted |
 | **Composition over time** | Stacked chart showing how the mix of service areas has shifted |
 | **Drill-down explorer** | Service → department → division → category → line item, five levels, expand/collapse, search, CSV export |
-| **Year-over-year comparison** | Pick any set of fiscal years; side-by-side columns with % change, expandable to department level, CSV export |
+| **Year-over-year comparison** | Pick any set of fiscal years; side-by-side columns with % change, expandable to department level, CSV export. Select any two year headings to pin which pair the % change measures — the pinned columns are tinted and the pair travels in the URL |
 | **Revenues** | Where the money comes from — chart plus a category → source → fund tree |
 | **Departments** | All ~62 departments, searchable, sortable by size, CSV export |
 | **Capital projects** | Largest approved capital funding for the selected year |
@@ -41,6 +41,7 @@ because GitHub Pages serves static files with no rewrite rules: a path like
 | `#/trends` | Budget over time and how the mix has changed |
 | `#/detail/2016` | Drill-down tree, FY2016 |
 | `#/compare/2011,2019,2027` | Comparison table with those three years selected |
+| `#/compare/2011,2019,2027/2011-2027` | The same, with the percent change pinned to FY2011 → FY2027 |
 | `#/revenues/2027` | Where the money comes from |
 | `#/capital/2027` | Capital projects |
 | `#/documents`, `#/faq`, `#/about` | Reference sections |
@@ -274,6 +275,18 @@ asset is copied into this repository.
   `Cantabrigia` commissioned from Bastarda Type Foundry. **None of the three may
   be redistributed**, so none of them are in this repository. See
   [Fonts and licensing](#fonts-and-licensing) below.
+
+**Choosing the compared pair.** The percent-change column has to measure *some*
+two years, and with more than two columns on screen the choice is no longer
+obvious. Rather than add another control above the table, the year headings are
+themselves buttons: select two and the change column recalculates between them.
+The pinned pair is always held in chronological order, so the earlier year is
+the baseline and the later one the comparison — there is never a question of
+which end you are setting. Selecting an already-pinned column releases *that*
+column and leaves the other one waiting for a new partner; selecting the waiting
+column again cancels and restores the previous pair. The two columns are tinted
+and labelled `From` / `To` so the arithmetic behind the percentage is visible
+rather than implied, and a non-default pair is carried in the URL.
 
 ## Fonts and licensing
 

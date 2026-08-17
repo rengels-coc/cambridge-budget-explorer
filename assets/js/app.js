@@ -56,6 +56,13 @@
     revenueByYear: {},
     capitalByYear: {},
     compareYears: [],
+    // The two columns the % change is measured between. Always held sorted, so
+    // the earlier year is the baseline and the later one the comparison; the
+    // reader never has to say which is which. One entry means the reader is
+    // half way through picking a new pair.
+    comparePair: [],
+    comparePending: false,
+    comparePrev: null,
     compareOpen: {},
     detailOpen: {},
     detailAllExpanded: false
@@ -555,7 +562,69 @@
     }).join('');
   }
 
-  function renderCompareRows(nodes, sel, path, depth, out, q) {
+  /* ---- which two columns the % change measures ------------------------- *
+   * Clicking a year header pins it. Because the pair is kept sorted, the
+   * earlier year is always the baseline and the later one the comparison, so
+   * there is no "which end am I setting?" question to answer. Clicking a
+   * pinned column unpins that one specifically and leaves the other waiting
+   * for its new partner, which is how you change one end of the comparison.
+   * -------------------------------------------------------------------- */
+
+  function defaultComparePair(sel) {
+    return sel.length >= 2 ? [sel[sel.length - 2], sel[sel.length - 1]] : sel.slice();
+  }
+
+  /** Drop pinned years that are no longer shown, and fall back to the default. */
+  function normalizeComparePair() {
+    var sel = state.compareYears.slice().sort();
+    var pair = (state.comparePair || []).filter(function (y) {
+      return sel.indexOf(y) !== -1;
+    });
+    if (state.comparePending && pair.length === 1) { state.comparePair = pair; return; }
+    if (pair.length === 2) { state.comparePair = pair.sort(); return; }
+    state.comparePending = false;
+    state.comparePair = defaultComparePair(sel);
+  }
+
+  function pinCompareYear(y) {
+    var pair = state.comparePair.slice();
+
+    if (state.comparePending && pair.length === 1) {
+      if (pair[0] === y) {
+        // Clicked the waiting column again: cancel and put the old pair back.
+        state.comparePair = state.comparePrev && state.comparePrev.length === 2
+          ? state.comparePrev.slice()
+          : defaultComparePair(state.compareYears.slice().sort());
+      } else {
+        state.comparePair = [pair[0], y].sort();
+      }
+      state.comparePending = false;
+    } else {
+      state.comparePrev = pair.slice();
+      var i = pair.indexOf(y);
+      if (i !== -1) pair.splice(i, 1);  // unpin the end you clicked
+      else pair = [y];                  // a fresh pair, anchored here
+      state.comparePair = pair;
+      state.comparePending = true;
+    }
+
+    normalizeComparePair();
+    renderCompare();
+    syncHash(false);
+  }
+
+  /** Marks the from/to columns so the eye can find them without counting. */
+  function compareColClass(y, pair) {
+    if (pair.length === 2) {
+      if (y === pair[0]) return ' cmp-col cmp-col--from';
+      if (y === pair[1]) return ' cmp-col cmp-col--to';
+    } else if (pair.length === 1 && y === pair[0]) {
+      return ' cmp-col cmp-col--pick';
+    }
+    return '';
+  }
+
+  function renderCompareRows(nodes, sel, path, depth, out, q, pair) {
     nodes.forEach(function (nd) {
       var key = path + '|' + nd.name;
       var hasKids = !!(nd.kids && nd.kids.length);
@@ -563,14 +632,15 @@
 
       var cells = sel.map(function (y) {
         var v = nd.byYear[y];
-        return '<td class="num">' + (v ? esc(money(v)) : '<span class="dash">—</span>') + '</td>';
+        return '<td class="num' + compareColClass(y, pair) + '">' +
+          (v ? esc(money(v)) : '<span class="dash">—</span>') + '</td>';
       });
 
-      // Percent change always compares the two most recent SELECTED years, so
-      // the column matches what the reader can actually see.
+      // Percent change measures the two pinned columns, so it always describes
+      // something the reader can see side by side.
       var chg = '<span class="dash">—</span>';
-      if (sel.length >= 2) {
-        var a = nd.byYear[sel[sel.length - 2]], b = nd.byYear[sel[sel.length - 1]];
+      if (pair.length === 2) {
+        var a = nd.byYear[pair[0]], b = nd.byYear[pair[1]];
         if (a && b) {
           var d = (b - a) / a * 100;
           chg = '<span class="' + (d >= 0 ? 'chg chg--up' : 'chg chg--down') + '">' +
@@ -595,10 +665,10 @@
       if (depth === 0) out.push(tip(nd.name, 'services') || tip(nd.name, 'revenueCategories'));
       out.push('</span></th>');
       out.push(cells.join(''));
-      out.push('<td class="num">' + chg + '</td>');
+      out.push('<td class="num cmp-col cmp-col--chg">' + chg + '</td>');
       out.push('</tr>');
 
-      if (hasKids && open) renderCompareRows(nd.kids, sel, key, depth + 1, out, q);
+      if (hasKids && open) renderCompareRows(nd.kids, sel, key, depth + 1, out, q, pair);
     });
   }
 
@@ -630,32 +700,72 @@
       return;
     }
 
-    var head = ['<table class="cmp"><caption>Budgeted operating spending by service area, ' +
-      'department and division. Percent change compares FY' + sel[Math.max(0, sel.length - 2)] +
-      ' to FY' + sel[sel.length - 1] + '.</caption><thead><tr><th scope="col">Service area / department / division</th>'];
-    sel.forEach(function (y) { head.push('<th scope="col" class="num">FY' + y + '</th>'); });
-    head.push('<th scope="col" class="num">% change</th></tr></thead><tbody>');
+    normalizeComparePair();
+    var pair = state.comparePair;
+    var picking = pair.length !== 2;
+
+    var caption = picking
+      ? 'Budgeted operating spending by service area, department and division. ' +
+        'Pick a second year column to compare against FY' + pair[0] + '.'
+      : 'Budgeted operating spending by service area, department and division. ' +
+        'Percent change compares FY' + pair[0] + ' to FY' + pair[1] + '.';
+
+    var head = ['<table class="cmp"><caption>' + caption +
+      '</caption><thead><tr><th scope="col">Service area / department / division</th>'];
+    sel.forEach(function (y) {
+      var role = pair.length === 2
+        ? (y === pair[0] ? 'from' : (y === pair[1] ? 'to' : ''))
+        : (pair[0] === y ? 'pick' : '');
+      var badge = role === 'from' ? '<span class="cmp-badge">From</span>'
+        : role === 'to' ? '<span class="cmp-badge">To</span>'
+        : role === 'pick' ? '<span class="cmp-badge cmp-badge--pick">Pick a 2nd</span>' : '';
+      var label = role === 'from' || role === 'to'
+        ? 'FY' + y + ', pinned as the "' + role + '" column. Select to unpin it and choose a different one.'
+        : role === 'pick'
+          ? 'FY' + y + ', waiting for a second year. Select again to cancel.'
+          : 'Compare using FY' + y + '.';
+      head.push('<th scope="col" class="num cmp-yr' + compareColClass(y, pair) + '">' +
+        '<button type="button" class="cmp-hd" data-cmp-year="' + y + '"' +
+        ' aria-pressed="' + (role ? 'true' : 'false') + '"' +
+        ' title="' + esc(label) + '"><span class="cmp-hd__yr">FY' + y + '</span>' +
+        badge + '</button></th>');
+    });
+    head.push('<th scope="col" class="num cmp-col cmp-col--chg">% change' +
+      (picking ? '' : '<span class="cmp-hd__sub">FY' + pair[0] + ' &rarr; FY' + pair[1] + '</span>') +
+      '</th></tr></thead><tbody>');
 
     var out = [];
-    renderCompareRows(nodes, sel, '', 0, out, q);
+    renderCompareRows(nodes, sel, '', 0, out, q, pair);
 
     // Total row, summed from the top level so it always ties to the year total.
     var totals = sel.map(function (y) {
       return nodes.reduce(function (s, nd) { return s + (nd.byYear[y] || 0); }, 0);
     });
     var tchg = '<span class="dash">—</span>';
-    if (sel.length >= 2 && totals[totals.length - 2]) {
-      var d = (totals[totals.length - 1] - totals[totals.length - 2]) / totals[totals.length - 2] * 100;
-      tchg = '<span class="' + (d >= 0 ? 'chg chg--up' : 'chg chg--down') + '">' +
-        (d >= 0 ? '+' : '−') + Math.abs(d).toFixed(1) + '%</span>';
+    if (pair.length === 2) {
+      var ta = totals[sel.indexOf(pair[0])], tb = totals[sel.indexOf(pair[1])];
+      if (ta) {
+        var d = (tb - ta) / ta * 100;
+        tchg = '<span class="' + (d >= 0 ? 'chg chg--up' : 'chg chg--down') + '">' +
+          (d >= 0 ? '+' : '−') + Math.abs(d).toFixed(1) + '%</span>';
+      }
     }
     var foot = ['</tbody><tfoot><tr><th scope="row">' + (q ? 'Total (filtered)' : 'Total') + '</th>'];
-    totals.forEach(function (t) { foot.push('<td class="num">' + esc(money(t)) + '</td>'); });
-    foot.push('<td class="num">' + tchg + '</td></tr></tfoot></table>');
+    sel.forEach(function (y, i) {
+      foot.push('<td class="num' + compareColClass(y, pair) + '">' + esc(money(totals[i])) + '</td>');
+    });
+    foot.push('<td class="num cmp-col cmp-col--chg">' + tchg + '</td></tr></tfoot></table>');
 
     el.innerHTML = head.join('') + out.join('') + foot.join('');
     $('compare-sub').textContent = sel.length + ' fiscal year' + (sel.length === 1 ? '' : 's') +
-      ' shown' + (q ? ', filtered by “' + q + '”' : '') + '. Select a row to expand it.';
+      ' shown' + (q ? ', filtered by “' + q + '”' : '') + '. ' +
+      (picking
+        ? 'Now choose the year to compare FY' + pair[0] + ' against.'
+        : sel.length >= 2
+          ? 'Comparing FY' + pair[0] + ' with FY' + pair[1] +
+            ' — select a different year heading to change either end.'
+          : '') +
+      ' Select a row to expand it.';
   }
 
   function filterMatrix(nodes, q) {
@@ -1126,6 +1236,10 @@
     if (id === 'compare') {
       var picked = arg.split(',').filter(function (y) { return /^\d{4}$/.test(y); });
       if (picked.length) out.years = picked;
+      // Optional third segment pins the two columns the % change measures,
+      // e.g. #/compare/2011,2019,2027/2011-2027. Absent means "the last two".
+      var mp = (parts[2] || '').match(/^(\d{4})-(\d{4})$/);
+      if (mp) out.pair = [mp[1], mp[2]].sort();
     } else if (/^\d{4}$/.test(arg)) {
       out.year = arg;
     }
@@ -1137,7 +1251,16 @@
     var t = tabById(state.tab);
     if (!t) return '#/' + DEFAULT_TAB;
     if (t.id === 'compare' && state.compareYears.length) {
-      return '#/compare/' + state.compareYears.slice().sort().join(',');
+      var sel = state.compareYears.slice().sort();
+      var hash = '#/compare/' + sel.join(',');
+      // Only spell out the pair when it isn't the default, to keep the common
+      // case of a shared link short.
+      var pair = state.comparePair || [];
+      var def = defaultComparePair(sel);
+      if (pair.length === 2 && (pair[0] !== def[0] || pair[1] !== def[1])) {
+        hash += '/' + pair[0] + '-' + pair[1];
+      }
+      return hash;
     }
     if (t.year && state.year) return '#/' + t.id + '/' + state.year;
     return '#/' + t.id;
@@ -1199,6 +1322,10 @@
         return state.years.indexOf(y) !== -1;
       });
       if (!state.compareYears.length) state.compareYears = pickYears('recent3');
+      state.comparePending = false;
+      state.comparePair = (r.pair || []).filter(function (y) {
+        return state.compareYears.indexOf(y) !== -1;
+      });
       renderYearPicker();
       renderCompare();
     }
@@ -1318,6 +1445,8 @@
       var i = state.compareYears.indexOf(y);
       if (e.target.checked && i === -1) state.compareYears.push(y);
       if (!e.target.checked && i !== -1) state.compareYears.splice(i, 1);
+      // Changing which columns exist abandons a half-finished pick.
+      state.comparePending = false;
       renderCompare();
       syncHash(false);
     });
@@ -1325,6 +1454,8 @@
     document.querySelectorAll('[data-years]').forEach(function (btn) {
       btn.addEventListener('click', function () {
         state.compareYears = pickYears(btn.getAttribute('data-years'));
+        state.comparePending = false;
+        state.comparePair = [];
         renderYearPicker();
         renderCompare();
         syncHash(false);
@@ -1347,7 +1478,10 @@
         var ck = c.getAttribute('data-cmp-key');
         state.compareOpen[ck] = !state.compareOpen[ck];
         renderCompare();
+        return;
       }
+      var yh = e.target.closest ? e.target.closest('[data-cmp-year]') : null;
+      if (yh) pinCompareYear(yh.getAttribute('data-cmp-year'));
     });
 
     document.querySelectorAll('[data-toggle-table]').forEach(function (btn) {
