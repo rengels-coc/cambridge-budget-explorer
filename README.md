@@ -62,6 +62,7 @@ index.html                       nine tab panels in one document
 assets/css/style.css             Cambridge palette, responsive, print styles
 assets/js/app.js                 ~1,400 lines of vanilla JS, hand-drawn SVG charts, hash router
 assets/img/cambridge-seal.png    City seal, used in the masthead and as the favicon
+assets/fonts/*.woff2             Public Sans + League Gothic subsets (SIL OFL, see OFL.txt)
 content/glossary.json            plain-language definitions   ─┐
 content/documents.json           links to budget documents     │
 content/faq.json                 frequently asked questions    ├─ Budget Office owns
@@ -258,12 +259,56 @@ job uses it.
 
 ## Design notes
 
+The look and feel is drawn from `cambridgema.gov` — everything on this list was
+reproduced from the City's own stylesheet, which is public. No City-licensed
+asset is copied into this repository.
+
 - **Cambridge palette** — navy `#213a7f`, red `#d72524`, charcoal `#3e4045`,
-  taken from `cambridgema.gov`'s stylesheet.
-- **Fonts** — the City's `aktiv-grotesk`, `alternate-gothic-no-3-d` and
-  `Cantabrigia` are Adobe/licensed and cannot be redistributed on a public
-  GitHub Pages site, so this uses a system font stack that sits close to them.
-  Anything hosted on City infrastructure could use the real thing.
+  light grey `#eff0f2`, link blue `#006ab2`.
+- **City chrome** — the charcoal utility strip hanging off the right of the
+  brand bar with its leading edge cut on a diagonal, the "City of / Cambridge"
+  condensed wordmark beside the seal, the grey nav band closed by a red rule,
+  square uppercase buttons that invert on hover, and the charcoal footer.
+- **Fonts** — the City sets body copy in `aktiv-grotesk` and display type in
+  `alternate-gothic-no-3-d`, both served from Adobe Fonts, plus a custom
+  `Cantabrigia` commissioned from Bastarda Type Foundry. **None of the three may
+  be redistributed**, so none of them are in this repository. See
+  [Fonts and licensing](#fonts-and-licensing) below.
+
+## Fonts and licensing
+
+This is a licensing constraint, not a GitHub Pages constraint. Adobe's Product
+Specific Terms prohibit "hosting the Licensed Content on your own server or
+other self-hosting option", and the Bastarda EULA permits web embedding but
+forbids making the font software available to third parties. Committing any of
+them to a public repository is redistribution.
+
+So the site ships two open-licensed stand-ins, self-hosted as subset `woff2`
+files in `assets/fonts/` under the SIL Open Font License (see
+`assets/fonts/OFL.txt`):
+
+| City font | Substitute here | Used for |
+| --- | --- | --- |
+| `aktiv-grotesk` | **Public Sans** | body copy, labels, tables |
+| `alternate-gothic-no-3-d` | **League Gothic** | masthead, tabs, headings, KPI figures |
+
+They are close enough that the difference is a typographer's observation rather
+than a reader's. Both are subset to latin + latin-ext and total about 62 KB.
+
+**Switching on the real City fonts is a one-line change and requires no CSS
+edits.** The `--sans` and `--display` custom properties already list the Adobe
+family names *first*; they are inert today because no kit is loaded, so browsers
+fall through to the bundled fonts. Adding the City's Adobe Fonts kit `<script>`
+to `index.html` makes the real faces win automatically.
+
+Two things would need to happen before that switch:
+
+1. The City web team confirms the explorer is authorised to load the City's
+   Adobe Fonts kit (the kit is not domain-locked, but that is an operational
+   detail, not permission).
+2. Someone checks whether the Cantabrigia commission contract grants
+   redistribution or web-embedding rights beyond the stock Bastarda EULA.
+
 - **Charts are hand-drawn SVG.** No charting library. They are also real DOM,
   so they print, they scale, and every bar carries a `<title>` for screen
   readers and hover.

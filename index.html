@@ -6,6 +6,8 @@
 <title>Budget Explorer — City of Cambridge, Massachusetts</title>
 <meta name="description" content="Explore the City of Cambridge operating and capital budget. Spending by service area, department, division and line item, FY2011 to FY2027, from the City's open data.">
 <link rel="icon" href="assets/img/cambridge-seal.png" type="image/png">
+<link rel="preload" href="assets/fonts/public-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/league-gothic-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
@@ -13,7 +15,7 @@
 <a class="skip-link" href="#main">Skip to main content</a>
 
 <div class="utility-bar">
-  <div class="wrap">
+  <div class="utility-bar__inner">
     <span class="utility-bar__city">City of Cambridge, Massachusetts</span>
     <a class="utility-bar__tag" href="https://www.cambridgema.gov/departments/opendata">Open Data Program</a>
   </div>
@@ -21,13 +23,17 @@
 
 <header class="masthead">
   <div class="wrap masthead__inner">
-    <div class="masthead__brand">
+    <a class="masthead__brand" href="https://www.cambridgema.gov/">
       <img class="seal" src="assets/img/cambridge-seal.png" width="232" height="231"
            alt="Seal of the City of Cambridge, Massachusetts, incorporated 1846">
-      <div class="masthead__titles">
-        <p class="masthead__eyebrow">Budget Office &middot; Finance Department</p>
-        <h1 class="masthead__title">Budget Explorer</h1>
-      </div>
+      <span class="masthead__wordmark">
+        <span class="masthead__wordmark-top">City of</span>
+        <span class="masthead__wordmark-bottom">Cambridge</span>
+      </span>
+    </a>
+    <div class="masthead__titles">
+      <p class="masthead__eyebrow">Budget Office &middot; Finance Department</p>
+      <h1 class="masthead__title">Budget Explorer</h1>
     </div>
   </div>
 </header>
