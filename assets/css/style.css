@@ -299,15 +299,31 @@ a:hover { color: var(--red); }
 
 .intro { background: var(--surface); border-bottom: 1px solid var(--rule); }
 .intro[hidden] { display: none; }
-.intro__inner { padding-top: 40px; padding-bottom: 34px; }
+.intro__inner { padding-top: 34px; padding-bottom: 30px; }
+/* The display face is very condensed, so a single centred column left most of
+   the row empty and pushed the KPI cards below the fold. Above the stacking
+   breakpoint the headline and the blurb share the row instead. */
+.intro__text {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 16px 52px;
+  align-items: center;
+}
 .intro__lede {
   font-family: var(--display);
   font-size: 56px; font-weight: 400; line-height: 1;
   text-transform: uppercase; letter-spacing: .01em;
-  margin-bottom: 16px; color: var(--navy);
+  margin: 0; color: var(--navy);
   max-width: 16ch;
 }
 .intro__text p { color: var(--charcoal); font-size: 17px; max-width: 60ch; margin: 0; }
+
+@media (min-width: 901px) {
+  .intro__text { grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); }
+  /* The grid column already sets the measure, so the ch cap would only force an
+     extra line back in. */
+  .intro__lede { max-width: none; }
+}
 
 /* ---------- Status ---------- */
 
@@ -322,8 +338,14 @@ a:hover { color: var(--red); }
 /* ---------- KPIs ---------- */
 
 .kpis {
-  display: grid; grid-template-columns: repeat(4, minmax(0,1fr));
+  /* Two up by default, four up only once four cards clear ~232px each. An
+     auto-fit track looks tidier in the abstract but lands on three columns in
+     between, which strands the fourth card alone on its own row. */
+  display: grid; grid-template-columns: repeat(2, minmax(0,1fr));
   gap: 16px; margin: 28px 0 8px;
+}
+@media (min-width: 1040px) {
+  .kpis { grid-template-columns: repeat(4, minmax(0,1fr)); }
 }
 .kpi {
   background: var(--surface); border: 1px solid var(--rule);
@@ -649,7 +671,6 @@ table.cmp tfoot th, table.cmp tfoot td {
     pointer-events: none;
   }
   .intro__lede { font-size: 40px; max-width: none; }
-  .kpis { grid-template-columns: repeat(2, minmax(0,1fr)); }
   .about-grid { grid-template-columns: 1fr; gap: 20px; }
   .site-footer__inner { grid-template-columns: 1fr; }
   .masthead__inner { gap: 18px; }
