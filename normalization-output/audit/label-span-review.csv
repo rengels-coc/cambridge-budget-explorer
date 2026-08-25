@@ -1,0 +1,35 @@
+dataset,field,label,first_year,last_year,row_count,dataset_first_year,dataset_last_year,disposition
+expenditures,department_name_comparison,Capital Building Projects,2024,2027,33,2011,2027,review_only_not_changed
+expenditures,department_name_comparison,Community Safety,2023,2027,73,2011,2027,review_only_not_changed
+expenditures,department_name_comparison,Conservation Commission,2011,2016,58,2011,2027,review_only_not_changed
+expenditures,department_name_comparison,Electrical,2011,2023,357,2011,2027,review_only_not_changed
+expenditures,department_name_comparison,Equity and Inclusion,2025,2027,106,2011,2027,review_only_not_changed
+expenditures,department_name_comparison,General Services,2011,2019,155,2011,2027,review_only_not_changed
+expenditures,department_name_comparison,Housing,2025,2027,81,2011,2027,review_only_not_changed
+expenditures,department_name_comparison,Human Resources,2024,2027,101,2011,2027,review_only_not_changed
+expenditures,department_name_comparison,Office of Sustainability,2025,2027,34,2011,2027,review_only_not_changed
+expenditures,department_name_comparison,Weights & Measures,2011,2019,138,2011,2027,review_only_not_changed
+expenditures,fund_comparison,CDBG Historical,2011,2015,4,2011,2027,review_only_not_changed
+expenditures,fund_comparison,School General Fund,2017,2027,617,2011,2027,review_only_not_changed
+revenues,department_name_comparison,Capital Building Projects,2024,2027,4,2011,2027,review_only_not_changed
+revenues,department_name_comparison,Community Safety,2023,2027,5,2011,2027,review_only_not_changed
+revenues,department_name_comparison,Conservation Commission,2011,2016,18,2011,2027,review_only_not_changed
+revenues,department_name_comparison,Electrical,2011,2023,89,2011,2027,review_only_not_changed
+revenues,department_name_comparison,Equity and Inclusion,2025,2027,5,2011,2027,review_only_not_changed
+revenues,department_name_comparison,General Services,2011,2019,27,2011,2027,review_only_not_changed
+revenues,department_name_comparison,Housing,2025,2027,14,2011,2027,review_only_not_changed
+revenues,department_name_comparison,Human Resources,2024,2027,4,2011,2027,review_only_not_changed
+revenues,department_name_comparison,Office of Sustainability,2025,2027,3,2011,2027,review_only_not_changed
+revenues,department_name_comparison,Weights & Measures,2011,2019,36,2011,2027,review_only_not_changed
+revenues,fund_comparison,CDBG,2027,2027,2,2011,2027,review_only_not_changed
+revenues,fund_comparison,CDBG Human Services,2027,2027,1,2011,2027,review_only_not_changed
+revenues,fund_comparison,School General Fund,2017,2027,92,2011,2027,review_only_not_changed
+capital,department_comparison,Arts Council,2020,2022,3,2020,2031,review_only_not_changed
+capital,department_comparison,Capital Building Projects,2025,2031,7,2020,2031,review_only_not_changed
+capital,department_comparison,Electrical,2021,2021,1,2020,2031,review_only_not_changed
+capital,department_comparison,Emergency Communications,2024,2031,10,2020,2031,review_only_not_changed
+capital,department_comparison,Library,2020,2024,6,2020,2031,review_only_not_changed
+capital,fund_comparison,Capital Projects Funds,2020,2026,30,2020,2031,review_only_not_changed
+capital,fund_comparison,Capital/Infrastructure Assets,2021,2026,3,2020,2031,review_only_not_changed
+capital,fund_comparison,General Government,2020,2020,1,2020,2031,review_only_not_changed
+capital,fund_comparison,Parking Projects Fund,2024,2031,8,2020,2031,review_only_not_changed

@@ -1,0 +1,8 @@
+# Keep line endings sane across Windows and the Linux CI runner. Without this,
+# checking out on Windows rewrites LF to CRLF and every file looks modified.
+* text=auto eol=lf
+
+*.png binary
+*.woff  binary
+*.woff2 binary
+*.ico   binary

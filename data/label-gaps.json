@@ -1,6 +1,6 @@
 {
   "note": "Labels that do not appear in every fiscal year after aliasing. Some are genuine (a department that did not exist yet); others may be renames that should be added to content/aliases.json.",
-  "builtAt": "2026-07-29T16:45:08.965Z",
+  "builtAt": "2026-08-24T22:04:25.762Z",
   "gaps": [
     {
       "field": "department_name",

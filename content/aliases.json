@@ -6,20 +6,63 @@
     "shows the same department twice - once ending and once starting - instead of",
     "one continuous line.",
     "",
-    "This file folds historical labels onto the current one. The rule used is:",
-    "the canonical name is the FY2027 spelling, because that is what the current",
-    "adopted budget document says and a resident checking this page against the",
-    "budget book should find the same words. Historical spellings are recorded in",
-    "content/glossary.json so nothing is hidden.",
+    "This file classifies exact label mappings. Deliberate renames and",
+    "organizational crosswalks preserve the published field and populate a",
+    "parallel *_comparison field. Typo/format corrections clean the published",
+    "field directly. The canonical name is generally the FY2027 spelling.",
     "",
     "The build script reports any label that does not appear in every fiscal year",
     "and is not listed here, so future renames get noticed rather than silently",
     "producing a broken comparison.",
     "",
-    "Format: field -> { historical label: current label }.",
+    "Format: field -> { historical label: comparison or corrected label }.",
+    "Mappings listed in _ruleTypes are intentional renames or crosswalks.",
+    "All other mappings are classified as typo_or_format.",
     "Applied to expenditures, revenues and capital alike."
   ],
   "_status": "draft-needs-budget-office-review",
+
+  "_ruleTypes": {
+    "_comment": [
+      "Only deliberate renames and organizational crosswalks belong here.",
+      "Every other exact mapping below defaults to typo_or_format.",
+      "A deliberate rename is the same entity under a new official name.",
+      "A crosswalk groups distinct source labels only for comparison."
+    ],
+    "service": {
+      "Human Resources and Development": "deliberate_rename",
+      "Human Resource Development": "deliberate_rename",
+      "Community Maintenance and Development": "deliberate_rename"
+    },
+    "department_name": {
+      "Animal Commission": "deliberate_rename",
+      "Cable Television": "deliberate_rename",
+      "Cherry Sheet": "deliberate_rename",
+      "Commission on the Status of Women": "deliberate_rename",
+      "Education": "deliberate_rename",
+      "Election Commission": "deliberate_rename",
+      "Fire": "deliberate_rename",
+      "Human Rights Commission": "deliberate_rename",
+      "Massachusetts Water Resources Authority": "deliberate_rename",
+      "Police": "deliberate_rename",
+      "Public Celebrations": "deliberate_rename",
+      "Traffic, Parking, and Transportation": "deliberate_rename",
+      "Veterans' Services": "deliberate_rename",
+      "Veterans Services": "deliberate_rename",
+      "Water": "deliberate_rename",
+      "DHSP": "deliberate_rename",
+      "School": "deliberate_rename",
+      "Traffic, Parking, & Transportation": "deliberate_rename",
+      "Public Works - Planning & Administration": "organizational_crosswalk",
+      "Public Works - Service Programs": "organizational_crosswalk",
+      "Public Works - Support Services": "organizational_crosswalk",
+      "Public Works Planning & Administration": "organizational_crosswalk"
+    },
+    "fund": {
+      "Water Fund": "deliberate_rename",
+      "School Fund": "deliberate_rename"
+    }
+  },
 
   "service": {
     "Human Resources and Development": "Human Resource",
@@ -52,7 +95,32 @@
     ],
     "Public Works - Planning & Administration": "Public Works",
     "Public Works - Service Programs": "Public Works",
-    "Public Works - Support Services": "Public Works"
+    "Public Works - Support Services": "Public Works",
+    "Public Works Planning & Administration": "Public Works",
+    "School": "School Organization",
+    "Traffic, Parking, & Transportation": "Transportation"
+  },
+
+  "division_name": {
+    "Amigos school": "Amigos School",
+    "Buisness Services": "Business Services",
+    "Campbridgeport School": "Cambridgeport School",
+    "Domestic and Gender-Based Violence Prevention Initiative": "Domestic & Gender-Based Violence Prevention Initiative",
+    "Englis Language Learner Program": "English Language Learner Program",
+    "Fletchard/Maynard Academy": "Fletcher/Maynard Academy",
+    "Govermental Relations": "Governmental Relations",
+    "Graham and Parks School": "Graham & Parks School",
+    "Health and Physical Education": "Health & Physical Education",
+    "History and Social Science": "History & Social Science",
+    "Leadership Operations & IT": "Leadership, Operations & IT",
+    "Legal Council": "Legal Counsel",
+    "Other Post Employment Benefits": "Other Post-Employment Benefits",
+    "Planning and Development": "Planning & Development",
+    "Revenue & Treasury": "Revenue Treasury",
+    "Safety and Security": "Safety & Security",
+    "Transportation Planning": "Transportation - Planning",
+    "Visual and Performing Arts": "Visual & Performing Arts",
+    "World Language3s": "World Languages"
   },
 
   "category": {
@@ -66,6 +134,26 @@
     "Water Fund": "Water Funds",
     "School Fund": "School General Fund",
     "Non Capital Public Invest Appr": "Non Capital Public Invt Appr"
+  },
+
+  "description": {
+    "Rent Of City Property": "Rent of City Property",
+    "Repairs and Maint - Services": "Repairs and Maint (Services)",
+    "Repairs and Maint - Supplies": "Repairs and Maint (Supplies)",
+    "Short Term Rental Community Impact Fee": "Short-Term Rental Community Impact Fee"
+  },
+
+  "city_location": {
+    "125 6th street": "125 6th Street",
+    "1640 Cambridge st.": "1640 Cambridge St.",
+    "250 Freshpond Parkway": "250 Fresh Pond Parkway",
+    "99 Sherman Street.": "99 Sherman Street"
+  },
+
+  "project_name": {
+    "CDD Transportation-Electric Vehicle Charging Infrastructure": "CDD: Transportation - Electric Vehicle Charging Infrastructure",
+    "CDD: HOUSING - AFFORDABLE HOUSING PROJECT DEVELOPMENT": "CDD: Housing - Affordable Housing Project Development",
+    "CDD: Transportation - ebikes for Bluebikes": "CDD: Transportation - Ebikes for Bluebikes"
   },
 
   "_notAliased": {

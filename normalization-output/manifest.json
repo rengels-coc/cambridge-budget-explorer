@@ -1,0 +1,86 @@
+{
+  "generatedAt": "2026-08-24T22:07:16.376Z",
+  "script": "scripts/normalize-open-data.mjs",
+  "aliases": "content/aliases.json",
+  "documentation": "docs/data-normalization-rules.md",
+  "dataModel": {
+    "publishedFieldsPreservedFor": [
+      "deliberate_rename",
+      "organizational_crosswalk"
+    ],
+    "typoOrFormatCorrectionsAppliedInPlace": true,
+    "comparisonFields": {
+      "expenditures": [
+        "service_comparison",
+        "department_name_comparison",
+        "category_comparison",
+        "fund_comparison"
+      ],
+      "revenues": [
+        "service_comparison",
+        "department_name_comparison",
+        "category_comparison",
+        "fund_comparison"
+      ],
+      "capital": [
+        "department_comparison",
+        "fund_comparison"
+      ]
+    }
+  },
+  "datasets": [
+    {
+      "name": "expenditures",
+      "title": "Budget - Operating Expenditures",
+      "datasetId": "5bn4-5wey",
+      "source": "https://data.cambridgema.gov/resource/5bn4-5wey.json",
+      "sourceType": "socrata",
+      "sourceUpdatedAt": "2026-05-05T20:37:29.000Z",
+      "sourceRowIdMode": "source",
+      "rows": 41384,
+      "sourceSha256": "f1e9fbd8b116b7fb00ad5a8d17037db5ba38ab709e034290ae3ad12e0b3d279d",
+      "normalizedSha256": "a0553ad9695b52ad7a9a0d982081b564f36c9c3d43871d40c785e606f3a21b2e",
+      "normalizedFile": "normalized/expenditures.json"
+    },
+    {
+      "name": "revenues",
+      "title": "Budget - Operating Revenues",
+      "datasetId": "ixyv-mje6",
+      "source": "https://data.cambridgema.gov/resource/ixyv-mje6.json",
+      "sourceType": "socrata",
+      "sourceUpdatedAt": "2026-05-05T20:37:36.000Z",
+      "sourceRowIdMode": "source",
+      "rows": 3730,
+      "sourceSha256": "988ecfc1a42658fb147ba4a0c72b8079f4fc98dcc7ead28bff82bb2a3674b3d7",
+      "normalizedSha256": "3b743667aa48f3ae9b7bc295944cf4b0945bc885236e5c5ce3e2d8d6be492219",
+      "normalizedFile": "normalized/revenues.json"
+    },
+    {
+      "name": "capital",
+      "title": "Budget - Capital",
+      "datasetId": "9chi-2ed3",
+      "source": "https://data.cambridgema.gov/resource/9chi-2ed3.json",
+      "sourceType": "socrata",
+      "sourceUpdatedAt": "2026-05-05T20:37:42.000Z",
+      "sourceRowIdMode": "source",
+      "rows": 709,
+      "sourceSha256": "5138d77fe2f7a63546ea621f9f31a56e849bf1aa75d94eca23156de29be6d11e",
+      "normalizedSha256": "61bfd075b217669a6fa29e235493e2128fbae4e5095f37cc87600cd9ef02e642",
+      "normalizedFile": "normalized/capital.json"
+    }
+  ],
+  "files": {
+    "report": "audit/report.md",
+    "completeAudit": "audit/changes-with-provenance.csv",
+    "reviewQueue": "audit/label-span-review.csv",
+    "summary": "audit/summary.json"
+  },
+  "verification": {
+    "rowCountsPreserved": true,
+    "amountTotalsPreserved": true,
+    "uniqueSourceRowIds": true,
+    "requiredFieldsPresent": true,
+    "publishedRenameLabelsPreserved": true,
+    "comparisonFieldsPresent": true
+  }
+}

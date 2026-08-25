@@ -100,18 +100,39 @@ const round = (x) => Math.round(x * 100) / 100;
  * deliberately a reviewable content file rather than code.
  * ------------------------------------------------------------------ */
 
-const ALIAS_FIELDS = ['service', 'department_name', 'category', 'fund'];
+const ALIAS_FIELDS = {
+  service: 'service',
+  department_name: 'department_name',
+  department: 'department_name',
+  division_name: 'division_name',
+  category: 'category',
+  fund: 'fund',
+  description: 'description',
+  city_location: 'city_location',
+  project_name: 'project_name',
+};
+const COMPARISON_FIELDS = ['service', 'department_name', 'category', 'fund'];
+const COMPARISON_ALIAS_GROUPS = new Set(COMPARISON_FIELDS);
+const RULE_TYPES = new Set([
+  'deliberate_rename',
+  'organizational_crosswalk',
+  'typo_or_format',
+]);
 let ALIASES = {};
 
 async function loadAliases() {
   try {
     const raw = JSON.parse(await readFile(resolve(ROOT, 'content', 'aliases.json'), 'utf8'));
-    for (const f of ALIAS_FIELDS) {
+    for (const f of new Set(Object.values(ALIAS_FIELDS))) {
       const map = raw[f];
       if (!map) continue;
-      ALIASES[f] = Object.fromEntries(
-        Object.entries(map).filter(([k, v]) => !k.startsWith('_') && typeof v === 'string')
-      );
+      ALIASES[f] = {};
+      for (const [from, to] of Object.entries(map)) {
+        if (from.startsWith('_') || typeof to !== 'string') continue;
+        const type = raw._ruleTypes?.[f]?.[from] || 'typo_or_format';
+        if (!RULE_TYPES.has(type)) throw new Error(`Unknown rule type "${type}" for ${f}.${from}`);
+        ALIASES[f][from] = { to, type };
+      }
     }
     const total = Object.values(ALIASES).reduce((s, m) => s + Object.keys(m).length, 0);
     console.log(`Loaded ${total} label aliases from content/aliases.json`);
@@ -121,17 +142,35 @@ async function loadAliases() {
   }
 }
 
-/** Rewrite renamed labels in place so every downstream view is consistent. */
+const comparisonFieldName = (field) => `${field}_comparison`;
+const isComparisonField = (field) => COMPARISON_ALIAS_GROUPS.has(ALIAS_FIELDS[field]);
+
+/**
+ * Keep deliberate source labels, correct simple errors in place, and add
+ * comparison fields for every semantic label used in multi-year grouping.
+ */
 function applyAliases(rows) {
   let changed = 0;
   for (const r of rows) {
-    for (const f of ALIAS_FIELDS) {
-      const map = ALIASES[f];
-      if (!map || r[f] == null) continue;
-      const to = map[String(r[f]).trim()];
-      if (to) {
-        r[f] = to;
+    for (const [field, aliasGroup] of Object.entries(ALIAS_FIELDS)) {
+      const map = ALIASES[aliasGroup];
+      if (r[field] == null) {
+        if (isComparisonField(field)) r[comparisonFieldName(field)] = r[field];
+        continue;
+      }
+      const published = String(r[field]).trim();
+      const alias = map?.[published];
+      if (alias?.type === 'typo_or_format' && alias.to !== published) {
+        r[field] = alias.to;
         changed++;
+      } else {
+        r[field] = published;
+      }
+      if (isComparisonField(field)) {
+        const comparison =
+          alias && alias.type !== 'typo_or_format' ? alias.to : r[field];
+        r[comparisonFieldName(field)] = comparison;
+        if (comparison !== r[field]) changed++;
       }
     }
   }
@@ -148,9 +187,10 @@ function reportLabelGaps(name, rows, years) {
   const spans = new Map();
   for (const r of rows) {
     const y = String(r.fiscal_year);
-    for (const f of ALIAS_FIELDS) {
-      if (r[f] == null) continue;
-      const key = f + '\u0000' + clean(r[f]);
+    for (const f of COMPARISON_FIELDS) {
+      const comparisonField = comparisonFieldName(f);
+      if (r[comparisonField] == null) continue;
+      const key = f + '\u0000' + clean(r[comparisonField]);
       const cur = spans.get(key);
       if (cur) {
         if (y < cur.min) cur.min = y;
@@ -204,9 +244,15 @@ function buildTree(rows, fields) {
     let level = root;
     for (const f of fields) {
       const key = clean(r[f]);
-      if (!level.has(key)) level.set(key, { name: key, total: 0, kids: new Map() });
+      if (!level.has(key)) {
+        level.set(key, { name: key, total: 0, kids: new Map(), publishedNames: new Set() });
+      }
       const node = level.get(key);
       node.total += amount;
+      if (f.endsWith('_comparison')) {
+        const published = clean(r[f.slice(0, -'_comparison'.length)]);
+        if (published !== key) node.publishedNames.add(published);
+      }
       level = node.kids;
     }
   }
@@ -216,6 +262,7 @@ function buildTree(rows, fields) {
       .sort((a, b) => b.total - a.total)
       .map((x) => {
         const out = { name: x.name, total: round(x.total) };
+        if (x.publishedNames.size) out.publishedNames = [...x.publishedNames].sort();
         if (x.kids.size && depth < fields.length - 1) out.kids = toArray(x.kids, depth + 1);
         return out;
       });
@@ -328,9 +375,9 @@ async function main() {
   /* ---- stacked composition by service across years ---- */
   const newest = years[years.length - 1];
   const newestTotals = new Map(
-    groupSum(expByYear.get(newest), 'service').map((s) => [s.label, s.value])
+    groupSum(expByYear.get(newest), 'service_comparison').map((s) => [s.label, s.value])
   );
-  const allServices = [...new Set(exp.map((r) => clean(r.service)))].sort(
+  const allServices = [...new Set(exp.map((r) => clean(r.service_comparison)))].sort(
     (a, b) => (newestTotals.get(b) || 0) - (newestTotals.get(a) || 0)
   );
 
@@ -342,7 +389,7 @@ async function main() {
         round(
           expByYear
             .get(y)
-            .filter((r) => clean(r.service) === svc)
+            .filter((r) => clean(r.service_comparison) === svc)
             .reduce((s, r) => s + n(r.amount), 0)
         )
       ),
@@ -353,8 +400,12 @@ async function main() {
   /* ---- multi-year comparison matrix ---- */
   const matrix = {
     years,
-    expenses: buildMatrix(exp, ['service', 'department_name', 'division_name'], years),
-    revenues: buildMatrix(rev, ['category', 'department_name'], years),
+    expenses: buildMatrix(
+      exp,
+      ['service_comparison', 'department_name_comparison', 'division_name'],
+      years
+    ),
+    revenues: buildMatrix(rev, ['category_comparison', 'department_name_comparison'], years),
   };
   await writeFile(resolve(OUT, 'matrix.json'), JSON.stringify(matrix), 'utf8');
 
@@ -366,25 +417,41 @@ async function main() {
     const rv = revByYear.get(fy);
     const cp = capByYear.get(fy);
 
-    const services = groupSum(e, 'service');
+    const services = groupSum(e, 'service_comparison');
     const total = round(services.reduce((s, r) => s + r.value, 0));
 
     const deptMap = new Map();
     for (const r of e) {
-      const d = clean(r.department_name);
-      if (!deptMap.has(d)) deptMap.set(d, { department: d, service: clean(r.service), total: 0 });
-      deptMap.get(d).total += n(r.amount);
+      const d = clean(r.department_name_comparison);
+      if (!deptMap.has(d)) {
+        deptMap.set(d, {
+          department: d,
+          service: clean(r.service_comparison),
+          total: 0,
+          publishedNames: new Set(),
+        });
+      }
+      const department = deptMap.get(d);
+      department.total += n(r.amount);
+      if (clean(r.department_name) !== d) department.publishedNames.add(clean(r.department_name));
     }
     const departments = [...deptMap.values()]
-      .map((d) => ({ ...d, total: round(d.total) }))
+      .map((d) => ({
+        department: d.department,
+        service: d.service,
+        total: round(d.total),
+        ...(d.publishedNames.size ? { publishedNames: [...d.publishedNames].sort() } : {}),
+      }))
       .sort((a, b) => b.total - a.total);
 
     const capitalProjects = cp
       .filter((r) => n(r.approved_amount) > 0)
       .map((r) => ({
         project: clean(r.project_name),
-        department: clean(r.department),
-        fund: clean(r.fund),
+        department: clean(r.department_comparison),
+        publishedDepartment:
+          clean(r.department) === clean(r.department_comparison) ? null : clean(r.department),
+        fund: clean(r.fund_comparison),
         amount: n(r.approved_amount),
       }))
       .sort((a, b) => b.amount - a.amount);
@@ -393,14 +460,23 @@ async function main() {
       year: fy,
       total,
       services,
-      categories: groupSum(e, 'category'),
-      funds: groupSum(e, 'fund'),
+      categories: groupSum(e, 'category_comparison'),
+      funds: groupSum(e, 'fund_comparison'),
       departments,
       // Full drill-down: service > department > division > category > line item
-      tree: buildTree(e, ['service', 'department_name', 'division_name', 'category', 'description']),
+      tree: buildTree(e, [
+        'service_comparison',
+        'department_name_comparison',
+        'division_name',
+        'category_comparison',
+        'description',
+      ]),
       revenue: round(rv.reduce((s, r) => s + n(r.amount), 0)),
-      revenueCategories: groupSum(rv, 'category'),
-      revenueTree: buildTree(rv, ['category', 'department_name', 'description']),
+      revenueCategories: groupSum(rv, 'category_comparison'),
+      revenueTree: buildTree(
+        rv,
+        ['category_comparison', 'department_name_comparison', 'description']
+      ),
       capital: round(cp.reduce((s, r) => s + n(r.approved_amount), 0)),
       capitalProjects: capitalProjects.slice(0, 25),
       lineItemCount: e.length,

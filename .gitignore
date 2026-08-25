@@ -2,3 +2,14 @@ node_modules/
 .DS_Store
 Thumbs.db
 
+# The normalizer's bulk output is regenerable from the published open data by
+# running `node scripts/normalize-open-data.mjs`, and runs to ~80 MB, so it is
+# not committed. The small, human-readable review artifacts ARE committed —
+# see the negations below — because those are what the Budget Office reads.
+normalization-output/*
+!normalization-output/manifest.json
+!normalization-output/audit/
+normalization-output/audit/*
+!normalization-output/audit/report.md
+!normalization-output/audit/summary.json
+!normalization-output/audit/label-span-review.csv

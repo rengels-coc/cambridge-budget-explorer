@@ -1,6 +1,6 @@
 {
-  "generated": "2026-07-29",
-  "generatedAt": "2026-07-29T16:45:09.166Z",
+  "generated": "2026-08-24",
+  "generatedAt": "2026-08-24T22:04:25.948Z",
   "source": "https://data.cambridgema.gov",
   "datasets": {
     "expenditures": "5bn4-5wey",
@@ -120,8 +120,12 @@
   },
   "aliasesApplied": {
     "service": 3,
-    "department_name": 19,
+    "department_name": 22,
+    "division_name": 19,
     "category": 4,
-    "fund": 3
+    "fund": 3,
+    "description": 4,
+    "city_location": 4,
+    "project_name": 3
   }
 }

@@ -1,0 +1,1098 @@
+{
+  "generatedAt": "2026-08-24T22:07:16.376Z",
+  "rulesFile": "content/aliases.json",
+  "datasets": [
+    {
+      "name": "expenditures",
+      "title": "Budget - Operating Expenditures",
+      "rows": 41384,
+      "amountField": "amount",
+      "amountTotal": 11621453336,
+      "zeroAmounts": 2074,
+      "negativeAmounts": 10,
+      "amountByYear": {
+        "2011": 459705025,
+        "2012": 472196095,
+        "2013": 488228565,
+        "2014": 507186337,
+        "2015": 524401817,
+        "2016": 545870875,
+        "2017": 574562125,
+        "2018": 605031310,
+        "2019": 636451110,
+        "2020": 678384235,
+        "2021": 715264225,
+        "2022": 748220690,
+        "2023": 801451870,
+        "2024": 883773885,
+        "2025": 955584350,
+        "2026": 992181320,
+        "2027": 1032959502
+      },
+      "nullsByField": {
+        "fiscal_year": 0,
+        "service": 0,
+        "department_name": 0,
+        "division_name": 1,
+        "category": 0,
+        "description": 0,
+        "amount": 0,
+        "fund": 0,
+        "service_comparison": 0,
+        "department_name_comparison": 0,
+        "category_comparison": 0,
+        "fund_comparison": 0
+      },
+      "changes": 272829,
+      "labelMappings": 60304,
+      "labelSpanFlags": 12
+    },
+    {
+      "name": "revenues",
+      "title": "Budget - Operating Revenues",
+      "rows": 3730,
+      "amountField": "amount",
+      "amountTotal": 11621453317,
+      "zeroAmounts": 12,
+      "negativeAmounts": 56,
+      "amountByYear": {
+        "2011": 459705025,
+        "2012": 472196095,
+        "2013": 488228565,
+        "2014": 507186335,
+        "2015": 524401800,
+        "2016": 545870875,
+        "2017": 574562125,
+        "2018": 605031310,
+        "2019": 636451110,
+        "2020": 678384235,
+        "2021": 715264225,
+        "2022": 748220690,
+        "2023": 801451870,
+        "2024": 883773885,
+        "2025": 955584350,
+        "2026": 992181320,
+        "2027": 1032959502
+      },
+      "nullsByField": {
+        "fiscal_year": 0,
+        "service": 0,
+        "department_name": 0,
+        "category": 0,
+        "description": 0,
+        "amount": 0,
+        "fund": 0,
+        "service_comparison": 0,
+        "department_name_comparison": 0,
+        "category_comparison": 0,
+        "fund_comparison": 0
+      },
+      "changes": 23592,
+      "labelMappings": 3579,
+      "labelSpanFlags": 13
+    },
+    {
+      "name": "capital",
+      "title": "Budget - Capital",
+      "rows": 709,
+      "amountField": "approved_amount",
+      "amountTotal": 1806146613,
+      "zeroAmounts": 80,
+      "negativeAmounts": 0,
+      "amountByYear": {
+        "2020": 101096725,
+        "2021": 311185940,
+        "2022": 83910865,
+        "2023": 164063235,
+        "2024": 185206905,
+        "2025": 74892720,
+        "2026": 151140770,
+        "2027": 155153083,
+        "2028": 147850053,
+        "2029": 168443581,
+        "2030": 115679093,
+        "2031": 147523643
+      },
+      "nullsByField": {
+        "fiscal_year": 0,
+        "department": 0,
+        "project_id": 104,
+        "project_name": 0,
+        "fund": 30,
+        "city_location": 441,
+        "latitude": 580,
+        "longitude": 580,
+        "map_location": 580,
+        "approved_amount": 0,
+        "department_comparison": 0,
+        "fund_comparison": 30
+      },
+      "changes": 5504,
+      "labelMappings": 418,
+      "labelSpanFlags": 9
+    }
+  ],
+  "totals": {
+    "rows": 45823,
+    "changes": 301925,
+    "labelMappings": 64301,
+    "labelSpanFlags": 34
+  },
+  "changesByKind": {
+    "comparison": 181874,
+    "correction": 25429,
+    "schema": 2316,
+    "type": 91904,
+    "whitespace": 402
+  },
+  "changesByRule": {
+    "comparison.copy_published": 143002,
+    "comparison.deliberate_rename.department_name": 19703,
+    "comparison.deliberate_rename.fund": 1232,
+    "comparison.deliberate_rename.service": 17595,
+    "comparison.organizational_crosswalk.department_name": 342,
+    "correction.category": 24054,
+    "correction.city_location": 27,
+    "correction.description": 353,
+    "correction.division_name": 933,
+    "correction.fund": 59,
+    "correction.project_name": 3,
+    "schema.missing_to_null": 2316,
+    "text.trim_and_collapse_whitespace": 402,
+    "type.numeric_string_to_number": 91904
+  },
+  "aliasApplications": [
+    {
+      "dataset": "capital",
+      "field": "city_location",
+      "before": "125 6th street",
+      "after": "125 6th Street",
+      "count": 2,
+      "rule_id": "correction.city_location",
+      "rule_type": "typo_or_format"
+    },
+    {
+      "dataset": "capital",
+      "field": "city_location",
+      "before": "1640 Cambridge st.",
+      "after": "1640 Cambridge St.",
+      "count": 1,
+      "rule_id": "correction.city_location",
+      "rule_type": "typo_or_format"
+    },
+    {
+      "dataset": "capital",
+      "field": "city_location",
+      "before": "250 Freshpond Parkway",
+      "after": "250 Fresh Pond Parkway",
+      "count": 22,
+      "rule_id": "correction.city_location",
+      "rule_type": "typo_or_format"
+    },
+    {
+      "dataset": "capital",
+      "field": "city_location",
+      "before": "99 Sherman Street.",
+      "after": "99 Sherman Street",
+      "count": 2,
+      "rule_id": "correction.city_location",
+      "rule_type": "typo_or_format"
+    },
+    {
+      "dataset": "capital",
+      "field": "department_comparison",
+      "before": "Cable Television",
+      "after": "Cable TV",
+      "count": 4,
+      "rule_id": "comparison.deliberate_rename.department_name",
+      "rule_type": "deliberate_rename"
+    },
+    {
+      "dataset": "capital",
+      "field": "department_comparison",
+      "before": "Fire",
+      "after": "Fire Department",
+      "count": 9,
+      "rule_id": "comparison.deliberate_rename.department_name",
+      "rule_type": "deliberate_rename"
+    },
+    {
+      "dataset": "capital",
+      "field": "department_comparison",
+      "before": "Police",
+      "after": "Police Department",
+      "count": 5,
+      "rule_id": "comparison.deliberate_rename.department_name",
+      "rule_type": "deliberate_rename"
+    },
+    {
+      "dataset": "capital",
+      "field": "department_comparison",
+      "before": "Public Celebrations",
+      "after": "Arts Council",
+      "count": 3,
+      "rule_id": "comparison.deliberate_rename.department_name",
+      "rule_type": "deliberate_rename"
+    },
+    {
+      "dataset": "capital",
+      "field": "department_comparison",
+      "before": "Public Works - Planning & Administration",
+      "after": "Public Works",
+      "count": 45,
+      "rule_id": "comparison.organizational_crosswalk.department_name",
+      "rule_type": "organizational_crosswalk"
+    },
+    {
+      "dataset": "capital",
+      "field": "department_comparison",
+      "before": "Public Works - Service Programs",
+      "after": "Public Works",
+      "count": 50,
+      "rule_id": "comparison.organizational_crosswalk.department_name",
+      "rule_type": "organizational_crosswalk"
+    },
+    {
+      "dataset": "capital",
+      "field": "department_comparison",
+      "before": "Public Works - Support Services",
+      "after": "Public Works",
+      "count": 25,
+      "rule_id": "comparison.organizational_crosswalk.department_name",
+      "rule_type": "organizational_crosswalk"
+    },
+    {
+      "dataset": "capital",
+      "field": "department_comparison",
+      "before": "Public Works Planning & Administration",
+      "after": "Public Works",
+      "count": 100,
+      "rule_id": "comparison.organizational_crosswalk.department_name",
+      "rule_type": "organizational_crosswalk"
+    },
+    {
+      "dataset": "capital",
+      "field": "department_comparison",
+      "before": "School",
+      "after": "School Organization",
+      "count": 11,
+      "rule_id": "comparison.deliberate_rename.department_name",
+      "rule_type": "deliberate_rename"
+    },
+    {
+      "dataset": "capital",
+      "field": "department_comparison",
+      "before": "Traffic, Parking, & Transportation",
+      "after": "Transportation",
+      "count": 25,
+      "rule_id": "comparison.deliberate_rename.department_name",
+      "rule_type": "deliberate_rename"
+    },
+    {
+      "dataset": "capital",
+      "field": "department_comparison",
+      "before": "Water",
+      "after": "Water Department",
+      "count": 52,
+      "rule_id": "comparison.deliberate_rename.department_name",
+      "rule_type": "deliberate_rename"
+    },
+    {
+      "dataset": "capital",
+      "field": "fund",
+      "before": "Non Capital Public Invest Appr",
+      "after": "Non Capital Public Invt Appr",
+      "count": 59,
+      "rule_id": "correction.fund",
+      "rule_type": "typo_or_format"
+    },
+    {
+      "dataset": "capital",
+      "field": "project_name",
+      "before": "CDD Transportation-Electric Vehicle Charging Infrastructure",
+      "after": "CDD: Transportation - Electric Vehicle Charging Infrastructure",
+      "count": 1,
+      "rule_id": "correction.project_name",
+      "rule_type": "typo_or_format"
+    },
+    {
+      "dataset": "capital",
+      "field": "project_name",
+      "before": "CDD: HOUSING - AFFORDABLE HOUSING PROJECT DEVELOPMENT",
+      "after": "CDD: Housing - Affordable Housing Project Development",
+      "count": 1,
+      "rule_id": "correction.project_name",
+      "rule_type": "typo_or_format"
+    },
+    {
+      "dataset": "capital",
+      "field": "project_name",
+      "before": "CDD: Transportation - ebikes for Bluebikes",
+      "after": "CDD: Transportation - Ebikes for Bluebikes",
+      "count": 1,
+      "rule_id": "correction.project_name",
+      "rule_type": "typo_or_format"
+    },
+    {
+      "dataset": "expenditures",
+      "field": "category",
+      "before": "Salaries and Wages",
+      "after": "Salaries & Wages",
+      "count": 19732,
+      "rule_id": "correction.category",
+      "rule_type": "typo_or_format"
+    },
+    {
+      "dataset": "expenditures",
+      "field": "category",
+      "before": "Travel and Training",
+      "after": "Travel & Training",
+      "count": 3142,
+      "rule_id": "correction.category",
+      "rule_type": "typo_or_format"
+    },
+    {
+      "dataset": "expenditures",
+      "field": "department_name_comparison",
+      "before": "Animal Commission",
+      "after": "Animal Control",
+      "count": 269,
+      "rule_id": "comparison.deliberate_rename.department_name",
+      "rule_type": "deliberate_rename"
+    },
+    {
+      "dataset": "expenditures",
+      "field": "department_name_comparison",
+      "before": "Cable Television",
+      "after": "Cable TV",
+      "count": 310,
+      "rule_id": "comparison.deliberate_rename.department_name",
+      "rule_type": "deliberate_rename"
+    },
+    {
+      "dataset": "expenditures",
+      "field": "department_name_comparison",
+      "before": "Cherry Sheet",
+      "after": "Cherry Sheet Assessments",
+      "count": 86,
+      "rule_id": "comparison.deliberate_rename.department_name",
+      "rule_type": "deliberate_rename"
+    },
+    {
+      "dataset": "expenditures",
+      "field": "department_name_comparison",
+      "before": "Commission on the Status of Women",
+      "after": "Women's Commission",
+      "count": 200,
+      "rule_id": "comparison.deliberate_rename.department_name",
+      "rule_type": "deliberate_rename"
+    },
+    {
+      "dataset": "expenditures",
+      "field": "department_name_comparison",
+      "before": "Education",
+      "after": "School Organization",
+      "count": 9664,
+      "rule_id": "comparison.deliberate_rename.department_name",
+      "rule_type": "deliberate_rename"
+    },
+    {
+      "dataset": "expenditures",
+      "field": "department_name_comparison",
+      "before": "Election Commission",
+      "after": "Election",
+      "count": 553,
+      "rule_id": "comparison.deliberate_rename.department_name",
+      "rule_type": "deliberate_rename"
+    },
+    {
+      "dataset": "expenditures",
+      "field": "department_name_comparison",
+      "before": "Fire",
+      "after": "Fire Department",
+      "count": 2195,
+      "rule_id": "comparison.deliberate_rename.department_name",
+      "rule_type": "deliberate_rename"
+    },
+    {
+      "dataset": "expenditures",
+      "field": "department_name_comparison",
+      "before": "Human Rights Commission",
+      "after": "Human Rights",
+      "count": 244,
+      "rule_id": "comparison.deliberate_rename.department_name",
+      "rule_type": "deliberate_rename"
+    },
+    {
+      "dataset": "expenditures",
+      "field": "department_name_comparison",
+      "before": "Massachusetts Water Resources Authority",
+      "after": "MWRA",
+      "count": 16,
+      "rule_id": "comparison.deliberate_rename.department_name",
+      "rule_type": "deliberate_rename"
+    },
+    {
+      "dataset": "expenditures",
+      "field": "department_name_comparison",
+      "before": "Police",
+      "after": "Police Department",
+      "count": 2080,
+      "rule_id": "comparison.deliberate_rename.department_name",
+      "rule_type": "deliberate_rename"
+    },
+    {
+      "dataset": "expenditures",
+      "field": "department_name_comparison",
+      "before": "Public Celebrations",
+      "after": "Arts Council",
+      "count": 328,
+      "rule_id": "comparison.deliberate_rename.department_name",
+      "rule_type": "deliberate_rename"
+    },
+    {
+      "dataset": "expenditures",
+      "field": "department_name_comparison",
+      "before": "Public Works - Planning & Administration",
+      "after": "Public Works",
+      "count": 29,
+      "rule_id": "comparison.organizational_crosswalk.department_name",
+      "rule_type": "organizational_crosswalk"
+    },
+    {
+      "dataset": "expenditures",
+      "field": "department_name_comparison",
+      "before": "Public Works - Service Programs",
+      "after": "Public Works",
+      "count": 51,
+      "rule_id": "comparison.organizational_crosswalk.department_name",
+      "rule_type": "organizational_crosswalk"
+    },
+    {
+      "dataset": "expenditures",
+      "field": "department_name_comparison",
+      "before": "Public Works - Support Services",
+      "after": "Public Works",
+      "count": 31,
+      "rule_id": "comparison.organizational_crosswalk.department_name",
+      "rule_type": "organizational_crosswalk"
+    },
+    {
+      "dataset": "expenditures",
+      "field": "department_name_comparison",
+      "before": "Traffic, Parking, and Transportation",
+      "after": "Transportation",
+      "count": 1270,
+      "rule_id": "comparison.deliberate_rename.department_name",
+      "rule_type": "deliberate_rename"
+    },
+    {
+      "dataset": "expenditures",
+      "field": "department_name_comparison",
+      "before": "Veterans Services",
+      "after": "Veteran's Administration",
+      "count": 11,
+      "rule_id": "comparison.deliberate_rename.department_name",
+      "rule_type": "deliberate_rename"
+    },
+    {
+      "dataset": "expenditures",
+      "field": "department_name_comparison",
+      "before": "Veterans' Services",
+      "after": "Veteran's Administration",
+      "count": 189,
+      "rule_id": "comparison.deliberate_rename.department_name",
+      "rule_type": "deliberate_rename"
+    },
+    {
+      "dataset": "expenditures",
+      "field": "department_name_comparison",
+      "before": "Water",
+      "after": "Water Department",
+      "count": 1090,
+      "rule_id": "comparison.deliberate_rename.department_name",
+      "rule_type": "deliberate_rename"
+    },
+    {
+      "dataset": "expenditures",
+      "field": "description",
+      "before": "Repairs and Maint - Services",
+      "after": "Repairs and Maint (Services)",
+      "count": 150,
+      "rule_id": "correction.description",
+      "rule_type": "typo_or_format"
+    },
+    {
+      "dataset": "expenditures",
+      "field": "description",
+      "before": "Repairs and Maint - Supplies",
+      "after": "Repairs and Maint (Supplies)",
+      "count": 171,
+      "rule_id": "correction.description",
+      "rule_type": "typo_or_format"
+    },
+    {
+      "dataset": "expenditures",
+      "field": "division_name",
+      "before": "Amigos school",
+      "after": "Amigos School",
+      "count": 12,
+      "rule_id": "correction.division_name",
+      "rule_type": "typo_or_format"
+    },
+    {
+      "dataset": "expenditures",
+      "field": "division_name",
+      "before": "Buisness Services",
+      "after": "Business Services",
+      "count": 6,
+      "rule_id": "correction.division_name",
+      "rule_type": "typo_or_format"
+    },
+    {
+      "dataset": "expenditures",
+      "field": "division_name",
+      "before": "Campbridgeport School",
+      "after": "Cambridgeport School",
+      "count": 50,
+      "rule_id": "correction.division_name",
+      "rule_type": "typo_or_format"
+    },
+    {
+      "dataset": "expenditures",
+      "field": "division_name",
+      "before": "Domestic and Gender-Based Violence Prevention Initiative",
+      "after": "Domestic & Gender-Based Violence Prevention Initiative",
+      "count": 9,
+      "rule_id": "correction.division_name",
+      "rule_type": "typo_or_format"
+    },
+    {
+      "dataset": "expenditures",
+      "field": "division_name",
+      "before": "Englis Language Learner Program",
+      "after": "English Language Learner Program",
+      "count": 12,
+      "rule_id": "correction.division_name",
+      "rule_type": "typo_or_format"
+    },
+    {
+      "dataset": "expenditures",
+      "field": "division_name",
+      "before": "Fletchard/Maynard Academy",
+      "after": "Fletcher/Maynard Academy",
+      "count": 190,
+      "rule_id": "correction.division_name",
+      "rule_type": "typo_or_format"
+    },
+    {
+      "dataset": "expenditures",
+      "field": "division_name",
+      "before": "Govermental Relations",
+      "after": "Governmental Relations",
+      "count": 7,
+      "rule_id": "correction.division_name",
+      "rule_type": "typo_or_format"
+    },
+    {
+      "dataset": "expenditures",
+      "field": "division_name",
+      "before": "Graham and Parks School",
+      "after": "Graham & Parks School",
+      "count": 107,
+      "rule_id": "correction.division_name",
+      "rule_type": "typo_or_format"
+    },
+    {
+      "dataset": "expenditures",
+      "field": "division_name",
+      "before": "Health and Physical Education",
+      "after": "Health & Physical Education",
+      "count": 59,
+      "rule_id": "correction.division_name",
+      "rule_type": "typo_or_format"
+    },
+    {
+      "dataset": "expenditures",
+      "field": "division_name",
+      "before": "History and Social Science",
+      "after": "History & Social Science",
+      "count": 48,
+      "rule_id": "correction.division_name",
+      "rule_type": "typo_or_format"
+    },
+    {
+      "dataset": "expenditures",
+      "field": "division_name",
+      "before": "Leadership Operations & IT",
+      "after": "Leadership, Operations & IT",
+      "count": 21,
+      "rule_id": "correction.division_name",
+      "rule_type": "typo_or_format"
+    },
+    {
+      "dataset": "expenditures",
+      "field": "division_name",
+      "before": "Legal Council",
+      "after": "Legal Counsel",
+      "count": 6,
+      "rule_id": "correction.division_name",
+      "rule_type": "typo_or_format"
+    },
+    {
+      "dataset": "expenditures",
+      "field": "division_name",
+      "before": "Other Post Employment Benefits",
+      "after": "Other Post-Employment Benefits",
+      "count": 5,
+      "rule_id": "correction.division_name",
+      "rule_type": "typo_or_format"
+    },
+    {
+      "dataset": "expenditures",
+      "field": "division_name",
+      "before": "Planning and Development",
+      "after": "Planning & Development",
+      "count": 270,
+      "rule_id": "correction.division_name",
+      "rule_type": "typo_or_format"
+    },
+    {
+      "dataset": "expenditures",
+      "field": "division_name",
+      "before": "Revenue & Treasury",
+      "after": "Revenue Treasury",
+      "count": 18,
+      "rule_id": "correction.division_name",
+      "rule_type": "typo_or_format"
+    },
+    {
+      "dataset": "expenditures",
+      "field": "division_name",
+      "before": "Safety and Security",
+      "after": "Safety & Security",
+      "count": 21,
+      "rule_id": "correction.division_name",
+      "rule_type": "typo_or_format"
+    },
+    {
+      "dataset": "expenditures",
+      "field": "division_name",
+      "before": "Transportation Planning",
+      "after": "Transportation - Planning",
+      "count": 23,
+      "rule_id": "correction.division_name",
+      "rule_type": "typo_or_format"
+    },
+    {
+      "dataset": "expenditures",
+      "field": "division_name",
+      "before": "Visual and Performing Arts",
+      "after": "Visual & Performing Arts",
+      "count": 65,
+      "rule_id": "correction.division_name",
+      "rule_type": "typo_or_format"
+    },
+    {
+      "dataset": "expenditures",
+      "field": "division_name",
+      "before": "World Language3s",
+      "after": "World Languages",
+      "count": 4,
+      "rule_id": "correction.division_name",
+      "rule_type": "typo_or_format"
+    },
+    {
+      "dataset": "expenditures",
+      "field": "fund_comparison",
+      "before": "School Fund",
+      "after": "School General Fund",
+      "count": 40,
+      "rule_id": "comparison.deliberate_rename.fund",
+      "rule_type": "deliberate_rename"
+    },
+    {
+      "dataset": "expenditures",
+      "field": "fund_comparison",
+      "before": "Water Fund",
+      "after": "Water Funds",
+      "count": 1026,
+      "rule_id": "comparison.deliberate_rename.fund",
+      "rule_type": "deliberate_rename"
+    },
+    {
+      "dataset": "expenditures",
+      "field": "service_comparison",
+      "before": "Community Maintenance and Development",
+      "after": "Community Maintenance",
+      "count": 6539,
+      "rule_id": "comparison.deliberate_rename.service",
+      "rule_type": "deliberate_rename"
+    },
+    {
+      "dataset": "expenditures",
+      "field": "service_comparison",
+      "before": "Human Resource Development",
+      "after": "Human Resource",
+      "count": 3216,
+      "rule_id": "comparison.deliberate_rename.service",
+      "rule_type": "deliberate_rename"
+    },
+    {
+      "dataset": "expenditures",
+      "field": "service_comparison",
+      "before": "Human Resources and Development",
+      "after": "Human Resource",
+      "count": 6739,
+      "rule_id": "comparison.deliberate_rename.service",
+      "rule_type": "deliberate_rename"
+    },
+    {
+      "dataset": "revenues",
+      "field": "category",
+      "before": "Charges For Services",
+      "after": "Charges for Service",
+      "count": 954,
+      "rule_id": "correction.category",
+      "rule_type": "typo_or_format"
+    },
+    {
+      "dataset": "revenues",
+      "field": "category",
+      "before": "Fines & Forfeits",
+      "after": "Fines and Forfeits",
+      "count": 226,
+      "rule_id": "correction.category",
+      "rule_type": "typo_or_format"
+    },
+    {
+      "dataset": "revenues",
+      "field": "department_name_comparison",
+      "before": "Animal Commission",
+      "after": "Animal Control",
+      "count": 76,
+      "rule_id": "comparison.deliberate_rename.department_name",
+      "rule_type": "deliberate_rename"
+    },
+    {
+      "dataset": "revenues",
+      "field": "department_name_comparison",
+      "before": "Cable Television",
+      "after": "Cable TV",
+      "count": 32,
+      "rule_id": "comparison.deliberate_rename.department_name",
+      "rule_type": "deliberate_rename"
+    },
+    {
+      "dataset": "revenues",
+      "field": "department_name_comparison",
+      "before": "Cherry Sheet",
+      "after": "Cherry Sheet Assessments",
+      "count": 63,
+      "rule_id": "comparison.deliberate_rename.department_name",
+      "rule_type": "deliberate_rename"
+    },
+    {
+      "dataset": "revenues",
+      "field": "department_name_comparison",
+      "before": "Commission on the Status of Women",
+      "after": "Women's Commission",
+      "count": 32,
+      "rule_id": "comparison.deliberate_rename.department_name",
+      "rule_type": "deliberate_rename"
+    },
+    {
+      "dataset": "revenues",
+      "field": "department_name_comparison",
+      "before": "DHSP",
+      "after": "Human Services",
+      "count": 65,
+      "rule_id": "comparison.deliberate_rename.department_name",
+      "rule_type": "deliberate_rename"
+    },
+    {
+      "dataset": "revenues",
+      "field": "department_name_comparison",
+      "before": "Education",
+      "after": "School Organization",
+      "count": 138,
+      "rule_id": "comparison.deliberate_rename.department_name",
+      "rule_type": "deliberate_rename"
+    },
+    {
+      "dataset": "revenues",
+      "field": "department_name_comparison",
+      "before": "Election Commission",
+      "after": "Election",
+      "count": 54,
+      "rule_id": "comparison.deliberate_rename.department_name",
+      "rule_type": "deliberate_rename"
+    },
+    {
+      "dataset": "revenues",
+      "field": "department_name_comparison",
+      "before": "Fire",
+      "after": "Fire Department",
+      "count": 125,
+      "rule_id": "comparison.deliberate_rename.department_name",
+      "rule_type": "deliberate_rename"
+    },
+    {
+      "dataset": "revenues",
+      "field": "department_name_comparison",
+      "before": "Human Rights Commission",
+      "after": "Human Rights",
+      "count": 16,
+      "rule_id": "comparison.deliberate_rename.department_name",
+      "rule_type": "deliberate_rename"
+    },
+    {
+      "dataset": "revenues",
+      "field": "department_name_comparison",
+      "before": "Massachusetts Water Resources Authority",
+      "after": "MWRA",
+      "count": 16,
+      "rule_id": "comparison.deliberate_rename.department_name",
+      "rule_type": "deliberate_rename"
+    },
+    {
+      "dataset": "revenues",
+      "field": "department_name_comparison",
+      "before": "Police",
+      "after": "Police Department",
+      "count": 249,
+      "rule_id": "comparison.deliberate_rename.department_name",
+      "rule_type": "deliberate_rename"
+    },
+    {
+      "dataset": "revenues",
+      "field": "department_name_comparison",
+      "before": "Public Celebrations",
+      "after": "Arts Council",
+      "count": 54,
+      "rule_id": "comparison.deliberate_rename.department_name",
+      "rule_type": "deliberate_rename"
+    },
+    {
+      "dataset": "revenues",
+      "field": "department_name_comparison",
+      "before": "Public Works - Planning & Administration",
+      "after": "Public Works",
+      "count": 9,
+      "rule_id": "comparison.organizational_crosswalk.department_name",
+      "rule_type": "organizational_crosswalk"
+    },
+    {
+      "dataset": "revenues",
+      "field": "department_name_comparison",
+      "before": "Public Works - Support Services",
+      "after": "Public Works",
+      "count": 2,
+      "rule_id": "comparison.organizational_crosswalk.department_name",
+      "rule_type": "organizational_crosswalk"
+    },
+    {
+      "dataset": "revenues",
+      "field": "department_name_comparison",
+      "before": "Traffic, Parking, and Transportation",
+      "after": "Transportation",
+      "count": 73,
+      "rule_id": "comparison.deliberate_rename.department_name",
+      "rule_type": "deliberate_rename"
+    },
+    {
+      "dataset": "revenues",
+      "field": "department_name_comparison",
+      "before": "Veterans Services",
+      "after": "Veteran's Administration",
+      "count": 2,
+      "rule_id": "comparison.deliberate_rename.department_name",
+      "rule_type": "deliberate_rename"
+    },
+    {
+      "dataset": "revenues",
+      "field": "department_name_comparison",
+      "before": "Veterans' Services",
+      "after": "Veteran's Administration",
+      "count": 37,
+      "rule_id": "comparison.deliberate_rename.department_name",
+      "rule_type": "deliberate_rename"
+    },
+    {
+      "dataset": "revenues",
+      "field": "department_name_comparison",
+      "before": "Water",
+      "after": "Water Department",
+      "count": 57,
+      "rule_id": "comparison.deliberate_rename.department_name",
+      "rule_type": "deliberate_rename"
+    },
+    {
+      "dataset": "revenues",
+      "field": "description",
+      "before": "Rent Of City Property",
+      "after": "Rent of City Property",
+      "count": 31,
+      "rule_id": "correction.description",
+      "rule_type": "typo_or_format"
+    },
+    {
+      "dataset": "revenues",
+      "field": "description",
+      "before": "Short Term Rental Community Impact Fee",
+      "after": "Short-Term Rental Community Impact Fee",
+      "count": 1,
+      "rule_id": "correction.description",
+      "rule_type": "typo_or_format"
+    },
+    {
+      "dataset": "revenues",
+      "field": "fund_comparison",
+      "before": "School Fund",
+      "after": "School General Fund",
+      "count": 85,
+      "rule_id": "comparison.deliberate_rename.fund",
+      "rule_type": "deliberate_rename"
+    },
+    {
+      "dataset": "revenues",
+      "field": "fund_comparison",
+      "before": "Water Fund",
+      "after": "Water Funds",
+      "count": 81,
+      "rule_id": "comparison.deliberate_rename.fund",
+      "rule_type": "deliberate_rename"
+    },
+    {
+      "dataset": "revenues",
+      "field": "service_comparison",
+      "before": "Community Maintenance and Development",
+      "after": "Community Maintenance",
+      "count": 746,
+      "rule_id": "comparison.deliberate_rename.service",
+      "rule_type": "deliberate_rename"
+    },
+    {
+      "dataset": "revenues",
+      "field": "service_comparison",
+      "before": "Human Resource Development",
+      "after": "Human Resource",
+      "count": 86,
+      "rule_id": "comparison.deliberate_rename.service",
+      "rule_type": "deliberate_rename"
+    },
+    {
+      "dataset": "revenues",
+      "field": "service_comparison",
+      "before": "Human Resources and Development",
+      "after": "Human Resource",
+      "count": 269,
+      "rule_id": "comparison.deliberate_rename.service",
+      "rule_type": "deliberate_rename"
+    }
+  ],
+  "operatingReconciliation": [
+    {
+      "fiscalYear": 2011,
+      "expenditures": 459705025,
+      "revenues": 459705025,
+      "difference": 0
+    },
+    {
+      "fiscalYear": 2012,
+      "expenditures": 472196095,
+      "revenues": 472196095,
+      "difference": 0
+    },
+    {
+      "fiscalYear": 2013,
+      "expenditures": 488228565,
+      "revenues": 488228565,
+      "difference": 0
+    },
+    {
+      "fiscalYear": 2014,
+      "expenditures": 507186337,
+      "revenues": 507186335,
+      "difference": 2
+    },
+    {
+      "fiscalYear": 2015,
+      "expenditures": 524401817,
+      "revenues": 524401800,
+      "difference": 17
+    },
+    {
+      "fiscalYear": 2016,
+      "expenditures": 545870875,
+      "revenues": 545870875,
+      "difference": 0
+    },
+    {
+      "fiscalYear": 2017,
+      "expenditures": 574562125,
+      "revenues": 574562125,
+      "difference": 0
+    },
+    {
+      "fiscalYear": 2018,
+      "expenditures": 605031310,
+      "revenues": 605031310,
+      "difference": 0
+    },
+    {
+      "fiscalYear": 2019,
+      "expenditures": 636451110,
+      "revenues": 636451110,
+      "difference": 0
+    },
+    {
+      "fiscalYear": 2020,
+      "expenditures": 678384235,
+      "revenues": 678384235,
+      "difference": 0
+    },
+    {
+      "fiscalYear": 2021,
+      "expenditures": 715264225,
+      "revenues": 715264225,
+      "difference": 0
+    },
+    {
+      "fiscalYear": 2022,
+      "expenditures": 748220690,
+      "revenues": 748220690,
+      "difference": 0
+    },
+    {
+      "fiscalYear": 2023,
+      "expenditures": 801451870,
+      "revenues": 801451870,
+      "difference": 0
+    },
+    {
+      "fiscalYear": 2024,
+      "expenditures": 883773885,
+      "revenues": 883773885,
+      "difference": 0
+    },
+    {
+      "fiscalYear": 2025,
+      "expenditures": 955584350,
+      "revenues": 955584350,
+      "difference": 0
+    },
+    {
+      "fiscalYear": 2026,
+      "expenditures": 992181320,
+      "revenues": 992181320,
+      "difference": 0
+    },
+    {
+      "fiscalYear": 2027,
+      "expenditures": 1032959502,
+      "revenues": 1032959502,
+      "difference": 0
+    }
+  ]
+}
