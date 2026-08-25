@@ -15,7 +15,9 @@
     capital: '9chi-2ed3'
   };
 
-  var PALETTE = ['#213a7f', '#2294d6', '#473e81', '#e6730f', '#b98f00', '#1a892b', '#d72524', '#6b6f76'];
+  /* City of Cambridge brand categorical sequence (Brand Guidelines, Aug 2024).
+     Mid Blue leads; the last entry is the neutral used for "Other". */
+  var PALETTE = ['#196CC6', '#FF6000', '#29BA38', '#730FE8', '#EC1A88', '#FFB800', '#1D2F8D', '#D20404', '#999999'];
 
   /* Each tab is its own route. `year: true` means the tab is scoped to one
      fiscal year, so the year picker is shown and the year rides in the URL. */
@@ -126,20 +128,34 @@
     ['service', 'service'],
     ['department_name', 'department_name'],
     ['department', 'department_name'],
+    ['division_name', 'division_name'],
     ['category', 'category'],
-    ['fund', 'fund']
+    ['fund', 'fund'],
+    ['description', 'description'],
+    ['city_location', 'city_location'],
+    ['project_name', 'project_name']
   ];
+  var COMPARISON_ALIAS_GROUPS = {
+    service: true, department_name: true, category: true, fund: true
+  };
 
   function loadAliases() {
     return json('content/aliases.json', true).then(function (raw) {
       if (!raw) { ALIASES = {}; return; }
       var out = {};
-      ['service', 'department_name', 'category', 'fund'].forEach(function (f) {
+      ['service', 'department_name', 'division_name', 'category', 'fund',
+        'description', 'city_location', 'project_name'].forEach(function (f) {
         var m = raw[f];
         if (!m) return;
         var clean = {};
         Object.keys(m).forEach(function (k) {
-          if (k.charAt(0) !== '_' && typeof m[k] === 'string') clean[k] = m[k];
+          if (k.charAt(0) !== '_' && typeof m[k] === 'string') {
+            clean[k] = {
+              to: m[k],
+              type: (raw._ruleTypes && raw._ruleTypes[f] && raw._ruleTypes[f][k]) ||
+                'typo_or_format'
+            };
+          }
         });
         out[f] = clean;
       });
@@ -152,9 +168,19 @@
     rows.forEach(function (r) {
       ALIAS_FIELDS.forEach(function (pair) {
         var map = ALIASES[pair[1]];
-        if (!map || r[pair[0]] == null) return;
-        var to = map[String(r[pair[0]]).trim()];
-        if (to) r[pair[0]] = to;
+        var field = pair[0];
+        var aliasGroup = pair[1];
+        if (r[field] == null) {
+          if (COMPARISON_ALIAS_GROUPS[aliasGroup]) r[field + '_comparison'] = r[field];
+          return;
+        }
+        var published = String(r[field]).trim();
+        var alias = map && map[published];
+        r[field] = alias && alias.type === 'typo_or_format' ? alias.to : published;
+        if (COMPARISON_ALIAS_GROUPS[aliasGroup]) {
+          r[field + '_comparison'] =
+            alias && alias.type !== 'typo_or_format' ? alias.to : r[field];
+        }
       });
     });
     return rows;
@@ -436,7 +462,12 @@
       if (self) {
         out.push(nd);
       } else if (kids && kids.length) {
-        out.push({ name: nd.name, total: nd.total, kids: kids });
+        out.push({
+          name: nd.name,
+          total: nd.total,
+          kids: kids,
+          publishedNames: nd.publishedNames
+        });
       }
     });
     return out;
@@ -472,6 +503,10 @@
           '<span class="tree-name">' + esc(nd.name) + '</span></button>');
       } else {
         out.push('<span class="tree-name tree-name--leaf">' + esc(nd.name) + '</span>');
+      }
+      if (nd.publishedNames && nd.publishedNames.length) {
+        out.push('<span class="tree-published">(published as ' +
+          esc(nd.publishedNames.join(', ')) + ')</span>');
       }
       out.push('</span>');
 
@@ -876,7 +911,10 @@
       '<th scope="col">Department</th><th scope="col">Fund</th>' +
       '<th scope="col" class="num">Approved</th></tr></thead><tbody>'];
     rows.forEach(function (r) {
-      html.push('<tr><td>' + esc(r.project) + '</td><td>' + esc(r.department) + '</td><td>' +
+      html.push('<tr><td>' + esc(r.project) + '</td><td>' + esc(r.department) +
+        (r.publishedDepartment
+          ? '<span class="tree-published">published as ' + esc(r.publishedDepartment) + '</span>'
+          : '') + '</td><td>' +
         esc(r.fund) + tip(r.fund, 'funds') + '</td><td class="num">' + esc(money(r.amount)) + '</td></tr>');
     });
     html.push('</tbody><tfoot><tr><th scope="row" colspan="3">Shown above</th><td class="num">' +
@@ -958,7 +996,7 @@
     }).then(function (rows) {
       var byService = new Map();
       rows.forEach(function (r) {
-        var svc = (r.service || 'Unspecified').trim() || 'Unspecified';
+        var svc = (r.service_comparison || 'Unspecified').trim() || 'Unspecified';
         if (!byService.has(svc)) byService.set(svc, {});
         byService.get(svc)[String(r.fiscal_year)] = num(r.total);
       });
@@ -986,7 +1024,11 @@
     }).then(function (rows) {
       return {
         years: years,
-        expenses: matrixFrom(rows, ['service', 'department_name', 'division_name'], years)
+        expenses: matrixFrom(
+          rows,
+          ['service_comparison', 'department_name_comparison', 'division_name'],
+          years
+        )
       };
     });
   }
@@ -1039,6 +1081,7 @@
     state.capital = (p.capitalProjects || []).map(function (r) {
       return {
         project: r.project, department: r.department || '—',
+        publishedDepartment: r.publishedDepartment || null,
         fund: r.fund || '—', amount: r.amount
       };
     });
@@ -1094,9 +1137,15 @@
           var level = root;
           fields.forEach(function (f) {
             var k = (x.r[f] || 'Unspecified').trim() || 'Unspecified';
-            if (!level.has(k)) level.set(k, { name: k, total: 0, kids: new Map() });
+            if (!level.has(k)) {
+              level.set(k, { name: k, total: 0, kids: new Map(), publishedNames: new Set() });
+            }
             var nd = level.get(k);
             nd.total += x.v;
+            if (f.slice(-11) === '_comparison') {
+              var published = (x.r[f.slice(0, -11)] || 'Unspecified').trim() || 'Unspecified';
+              if (published !== k) nd.publishedNames.add(published);
+            }
             level = nd.kids;
           });
         });
@@ -1104,6 +1153,7 @@
           return [...m.values()].sort(function (a, b) { return b.total - a.total; })
             .map(function (x) {
               var o = { name: x.name, total: x.total };
+              if (x.publishedNames.size) o.publishedNames = [...x.publishedNames].sort();
               if (x.kids.size && d < fields.length - 1) o.kids = toArr(x.kids, d + 1);
               return o;
             });
@@ -1113,25 +1163,47 @@
 
       var deptMap = new Map();
       expRows.forEach(function (x) {
-        var d = (x.r.department_name || 'Unspecified').trim() || 'Unspecified';
-        if (!deptMap.has(d)) deptMap.set(d, { department: d, service: x.r.service, total: 0 });
+        var d = (x.r.department_name_comparison || 'Unspecified').trim() || 'Unspecified';
+        if (!deptMap.has(d)) {
+          deptMap.set(d, {
+            department: d,
+            service: x.r.service_comparison,
+            total: 0,
+            publishedNames: []
+          });
+        }
+        var published = (x.r.department_name || 'Unspecified').trim() || 'Unspecified';
+        if (published !== d && deptMap.get(d).publishedNames.indexOf(published) < 0) {
+          deptMap.get(d).publishedNames.push(published);
+        }
         deptMap.get(d).total += x.v;
       });
 
       applyYearPayload(fy, {
-        services: sum(expRows, 'service'),
-        categories: sum(expRows, 'category'),
+        services: sum(expRows, 'service_comparison'),
+        categories: sum(expRows, 'category_comparison'),
         departments: [...deptMap.values()].sort(function (a, b) { return b.total - a.total; }),
-        tree: tree(expRows, ['service', 'department_name', 'division_name', 'category', 'description']),
+        tree: tree(expRows, [
+          'service_comparison',
+          'department_name_comparison',
+          'division_name',
+          'category_comparison',
+          'description'
+        ]),
         revenue: revRows.reduce(function (s, x) { return s + x.v; }, 0),
-        revenueCategories: sum(revRows, 'category'),
-        revenueTree: tree(revRows, ['category', 'department_name', 'description']),
+        revenueCategories: sum(revRows, 'category_comparison'),
+        revenueTree: tree(
+          revRows,
+          ['category_comparison', 'department_name_comparison', 'description']
+        ),
         capital: res[3].length ? num(res[3][0].total) : 0,
         capitalProjects: res[2].map(function (r) {
           return {
             project: r.project_name || 'Unnamed project',
-            department: r.department || '—',
-            fund: r.fund || '—',
+            department: r.department_comparison || '—',
+            publishedDepartment:
+              r.department !== r.department_comparison ? r.department : null,
+            fund: r.fund_comparison || '—',
             amount: num(r.approved_amount)
           };
         }),
@@ -1158,7 +1230,10 @@
       var delta = total - prior.value;
       var dpct = prior.value ? (delta / prior.value * 100) : 0;
       $('kpi-change').textContent = (delta >= 0 ? '+' : '−') + Math.abs(dpct).toFixed(1) + '%';
-      $('kpi-change').style.color = delta >= 0 ? '' : '#d72524';
+      /* Mid Green / Dark Red from the brand secondary palette. The sign and the
+         "Up"/"Down" note below carry the meaning on their own, so colour is
+         reinforcement rather than the only cue. */
+      $('kpi-change').style.color = delta >= 0 ? '#016F31' : '#C20000';
       $('kpi-change-note').textContent = (delta >= 0 ? 'Up ' : 'Down ') + moneyShort(Math.abs(delta)) +
         ' from FY' + prior.year;
     } else {

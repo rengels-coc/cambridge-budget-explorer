@@ -60,16 +60,21 @@ Printing overrides the hidden panels, so a print-out contains every section.
 
 ```
 index.html                       nine tab panels in one document
-assets/css/style.css             Cambridge palette, responsive, print styles
+assets/css/style.css             Cambridge brand palette, responsive, print styles
 assets/js/app.js                 ~1,400 lines of vanilla JS, hand-drawn SVG charts, hash router
-assets/img/cambridge-seal.png    City seal, used in the masthead and as the favicon
-assets/fonts/*.woff2             Public Sans + League Gothic subsets (SIL OFL, see OFL.txt)
+assets/brand/logo-white.svg      official City logo, used in the masthead
+assets/img/cambridge-icon.png    City Hall icon from the logo, used as the favicon
+assets/fonts/noto-sans-*.woff2   Noto Sans variable subsets (SIL OFL, see OFL.txt)
 content/glossary.json            plain-language definitions   ─┐
 content/documents.json           links to budget documents     │
 content/faq.json                 frequently asked questions    ├─ Budget Office owns
 content/aliases.json             historical name normalisation ─┘   these, not IT
 scripts/build-data.mjs           snapshot builder + reconciliation (Node built-ins only)
-scripts/interaction-test.mjs     51 browser checks over the DevTools Protocol
+scripts/normalize-open-data.mjs  row-level normalization + complete audit trail
+scripts/interaction-test.mjs     52 browser checks over the DevTools Protocol
+scripts/brand-check.mjs          brand + WCAG contrast audit, writes review screenshots
+docs/brand-notes.md              how the brand guidelines were applied here
+docs/brand-review/*.png          full-page screenshots for design review
 .github/workflows/               daily snapshot + Pages deploy
 ```
 
@@ -120,8 +125,10 @@ in FY2027 with sixteen empty columns beside it, and the old Police line stopping
 dead. Roughly thirty labels are affected across service areas, departments,
 categories and funds.
 
-`content/aliases.json` folds the historical spellings onto the current one. Two
-safeguards go with it:
+`content/aliases.json` classifies mappings as deliberate renames,
+organizational crosswalks, or typo/format corrections. Row-level normalized
+files preserve published labels and add parallel `*_comparison` fields; viewer
+aggregates use the comparison fields. Two safeguards go with it:
 
 1. The build prints — and writes to `data/label-gaps.json` — every label that
    does *not* appear in all seventeen years and was *not* aliased. Some are
@@ -129,6 +136,11 @@ safeguards go with it:
    renames nobody has told us about yet. Either way a human sees them.
 2. `interaction-test.mjs` asserts that no service area has a gap in any year and
    that no known rename pair appears twice in the same table.
+
+For a row-level review copy, run `node scripts/normalize-open-data.mjs`. It writes
+normalized copies of all three source datasets plus a readable report, a
+machine-readable summary, and a CSV recording every transformed field. The
+plain-English policy is in `docs/data-normalization-rules.md`.
 
 **Two changes are deliberately *not* folded**, because they moved money rather
 than renaming it:
@@ -260,21 +272,29 @@ job uses it.
 
 ## Design notes
 
-The look and feel is drawn from `cambridgema.gov` — everything on this list was
-reproduced from the City's own stylesheet, which is public. No City-licensed
-asset is copied into this repository.
+The page is styled from the City of Cambridge Brand Guidelines, *Cambridge
+Reimagined* (August 2024), using the official brand assets rather than
+approximations of them. The full write-up — which rule drove which choice, and
+the two places the guidelines were interpreted — is in
+[`docs/brand-notes.md`](docs/brand-notes.md).
 
-- **Cambridge palette** — navy `#213a7f`, red `#d72524`, charcoal `#3e4045`,
-  light grey `#eff0f2`, link blue `#006ab2`.
-- **City chrome** — the charcoal utility strip hanging off the right of the
-  brand bar with its leading edge cut on a diagonal, the "City of / Cambridge"
-  condensed wordmark beside the seal, the grey nav band closed by a red rule,
-  square uppercase buttons that invert on hover, and the charcoal footer.
-- **Fonts** — the City sets body copy in `aktiv-grotesk` and display type in
-  `alternate-gothic-no-3-d`, both served from Adobe Fonts, plus a custom
-  `Cantabrigia` commissioned from Bastarda Type Foundry. **None of the three may
-  be redistributed**, so none of them are in this repository. See
-  [Fonts and licensing](#fonts-and-licensing) below.
+- **Dark Blue leads.** The Budget Office sits in General Government, whose
+  primary colour is Dark Blue `#1D2F8D`, the City Official Blue. The masthead
+  and footer are flat Dark Blue blocks running to the edges of the canvas;
+  Bright Orange `#FF6000`, an approved complementary, appears only as the thin
+  brand bar and the focus ring.
+- **Flat, four divisions, sentence case.** No gradients, no drop shadows, no
+  rounded corners, and nothing in all caps — all four are explicit brand rules,
+  and all four are asserted by `scripts/brand-check.mjs`.
+- **The logo, not the seal.** The seal is reserved for official, legal and
+  executive documents; a dashboard gets the primary City logo. It is used as
+  supplied from the brand library, never redrawn or recoloured.
+- **Charts** follow the brand-derived categorical sequence, lead colour first,
+  with every bar directly labelled so colour is never the only cue.
+- **Fonts** — the whole page is Noto Sans, moved along its width axis to cover
+  display, body and condensed roles. See
+  [Fonts and licensing](#fonts-and-licensing) below for why the City's own
+  display face is deliberately not used.
 
 **Choosing the compared pair.** The percent-change column has to measure *some*
 two years, and with more than two columns on screen the choice is no longer
@@ -290,37 +310,70 @@ rather than implied, and a non-default pair is carried in the URL.
 
 ## Fonts and licensing
 
-This is a licensing constraint, not a GitHub Pages constraint. Adobe's Product
-Specific Terms prohibit "hosting the Licensed Content on your own server or
-other self-hosting option", and the Bastarda EULA permits web embedding but
-forbids making the font software available to third parties. Committing any of
-them to a public repository is redistribution.
+The page is set entirely in **Noto Sans**, one of the City's brand typefaces per
+the Brand Guidelines ("Cambridge Reimagined", August 2024). It is variable on
+both the weight *and* width axes, so a single 60 KB latin subset covers all three
+brand roles — and both files are self-hosted, so the page makes no third-party
+requests.
 
-So the site ships two open-licensed stand-ins, self-hosted as subset `woff2`
-files in `assets/fonts/` under the SIL Open Font License (see
-`assets/fonts/OFL.txt`):
+| Role | Setting |
+| --- | --- |
+| Page headline, masthead and footer titles, KPI figures | Noto Sans at **80%** width, 700 |
+| Body copy, tables, chart labels | Noto Sans at **100%** width |
+| Tabs, panel titles, buttons, links, captions, column labels | Noto Sans at **87.5%** width (this is Noto Sans Condensed) |
 
-| City font | Substitute here | Used for |
-| --- | --- | --- |
-| `aktiv-grotesk` | **Public Sans** | body copy, labels, tables |
-| `alternate-gothic-no-3-d` | **League Gothic** | masthead, tabs, headings, KPI figures |
+Everything bundled is under the SIL Open Font License, so **this repository
+carries no font-licensing restrictions.**
 
-They are close enough that the difference is a typographer's observation rather
-than a reader's. Both are subset to latin + latin-ext and total about 62 KB.
+<details>
+<summary>Why not Cantabrigia, the City's own display face?</summary>
 
-**Switching on the real City fonts is a one-line change and requires no CSS
-edits.** The `--sans` and `--display` custom properties already list the Adobe
-family names *first*; they are inert today because no kit is loaded, so browsers
-fall through to the bundled fonts. Adding the City's Adobe Fonts kit `<script>`
-to `index.html` makes the real faces win automatically.
+Cantabrigia is licensed to the City by Bastarda Type. The City may embed it in
+the City's own sites, but redistribution is not permitted — and committing the
+files to a public repository *is* redistribution. That would have made this
+repository impossible to open source, and would have put a legal review on the
+critical path of publishing anything.
 
-Two things would need to happen before that switch:
+Condensed Noto Sans is the guidelines' own named substitute. It holds close to
+the same proportions, it is free, and it removes the constraint entirely. The
+build was compared both ways before choosing.
 
-1. The City web team confirms the explorer is authorised to load the City's
-   Adobe Fonts kit (the kit is not domain-locked, but that is an operational
-   detail, not permission).
-2. Someone checks whether the Cantabrigia commission contract grants
-   redistribution or web-embedding rights beyond the stock Bastarda EULA.
+If the explorer later moves to City-controlled hosting and Communications would
+rather have the real face, add an `@font-face` block for it and put
+`"Cantabrigia"` at the front of the `--display` stack in `assets/css/style.css`.
+Nothing else needs to change — and `scripts/brand-check.mjs` will tell you
+whether it actually took.
+
+</details>
+
+## Brand conformance
+
+`scripts/brand-check.mjs` drives the live page in headless Edge/Chrome and
+asserts the parts of the brand guidelines that can be measured from the
+rendered DOM:
+
+- every text element clears WCAG 2.1 AA (4.5:1 normal, 3:1 large);
+- no gradients and no drop shadows — the design system is flat;
+- nothing is forced to all caps — headlines are sentence case;
+- every colour rendered traces back to the published palette or the approved
+  black tints;
+- Noto Sans is not merely declared but actually painted — the check asks the
+  renderer which font produced the glyphs, since a `font-family` list only
+  records what was asked for — and the display width axis really engages;
+- no licensed font is bundled anywhere in `assets/fonts/`, so the repository
+  stays publishable.
+
+It runs over the overview, trends, detail, compare and capital views plus a
+390 px mobile viewport, and writes full-page screenshots to
+`docs/brand-review/` so the design can be reviewed without running anything.
+
+```
+node scripts/brand-check.mjs http://localhost:8080/
+```
+
+The design decisions themselves — which brand rule drove which choice, and the
+two places the guidelines were read rather than followed literally — are
+written up in `docs/brand-notes.md`.
 
 - **Charts are hand-drawn SVG.** No charting library. They are also real DOM,
   so they print, they scale, and every bar carries a `<title>` for screen
@@ -329,13 +382,15 @@ Two things would need to happen before that switch:
   `aria-live` status region, table equivalents for charts, tabular numerals,
   and a print stylesheet. Tooltips open on click rather than hover so they work
   with touch and keyboard, dismiss with Escape, and stay on screen near the
-  edges. Not yet formally audited against WCAG 2.1 AA.
+  edges. Colour contrast is checked programmatically on every view by
+  `scripts/brand-check.mjs`; the rest is not yet formally audited.
 
 ## Things worth knowing about the data
 
-- **Revenues equal expenditures exactly, every year.** That is the Massachusetts
-  balanced-budget requirement, not a bug. The revenue figure is therefore shown
-  as "Balanced — revenues equal appropriations" rather than repeating the number.
+- **Revenues and expenditures nearly balance in every year.** The published
+  sources match exactly except FY2014 (revenues are $2 lower) and FY2015
+  (revenues are $17 lower). Those source-level differences are preserved and
+  flagged by the normalization audit rather than silently corrected.
 - **Department and service-area names change between years** — see the section
   above. This is the single most consequential quirk in the dataset, and the one
   most likely to produce a confidently wrong chart.
@@ -380,4 +435,3 @@ Proof of concept. **Not an official City of Cambridge page.** No accessibility
 audit, no content review, no sign-off from Communications. The figures come
 from the City's published data and should tie out, but they have not been
 reconciled against the adopted budget document.
-

@@ -16,11 +16,17 @@ const BASE = process.argv[2] || 'http://localhost:8080/';
 const PORT = 9333;
 
 const EDGE_CANDIDATES = [
+  process.env.CHROME_PATH,
   'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe',
   'C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe',
   '/usr/bin/google-chrome',
+  '/usr/bin/google-chrome-stable',
+  '/opt/google/chrome/chrome',
   '/usr/bin/chromium',
-];
+  '/usr/bin/chromium-browser',
+  '/usr/bin/microsoft-edge',
+  '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
+].filter(Boolean);
 
 let pass = 0;
 const failures = [];
@@ -422,6 +428,9 @@ async function main() {
       .indexOf('FY2016') === 0);
   check('tree reloads for the new year',
     (await cdp.eval(`return document.querySelectorAll('#detail-tree .tree-row').length`)) > 0);
+  check('historical labels remain visible beside comparison labels',
+    (await cdp.eval(`return document.getElementById('detail-tree').textContent`))
+      .indexOf('published as Community Maintenance and Development') !== -1);
 
   /* ---- deep links ---- */
   console.log('\nDeep links');

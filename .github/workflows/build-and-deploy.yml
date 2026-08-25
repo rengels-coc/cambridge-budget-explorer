@@ -36,8 +36,9 @@ jobs:
 
       # Gate the deploy on the browser tests. build-data.mjs already fails the
       # job if its totals disagree with Socrata's own sums; this checks that the
-      # page actually renders those totals correctly once a browser runs it.
-      - name: Run interaction tests
+      # page actually renders those totals correctly once a browser runs it, and
+      # that the rendered page still holds to the City brand guidelines.
+      - name: Run interaction and brand tests
         run: |
           python3 -m http.server 8080 --directory . &
           for i in $(seq 1 20); do
@@ -45,6 +46,15 @@ jobs:
             sleep 1
           done
           node scripts/interaction-test.mjs http://localhost:8080/
+          node scripts/brand-check.mjs http://localhost:8080/
+
+      - name: Upload brand review screenshots
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: brand-review
+          path: docs/brand-review/
+          if-no-files-found: ignore
 
       - uses: actions/configure-pages@v6
 

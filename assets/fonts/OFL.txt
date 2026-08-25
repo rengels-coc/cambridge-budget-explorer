@@ -1,49 +1,51 @@
 Fonts bundled with the Cambridge Budget Explorer
 ================================================
 
-Both families here are licensed under the SIL Open Font License, Version 1.1,
-which expressly permits bundling and redistribution — including in a public
-repository — provided this notice travels with them.
+This page is set entirely in Noto Sans, one of the City of Cambridge brand
+typefaces (Brand Guidelines, "Cambridge Reimagined", August 2024). A single
+variable family covers all three brand roles by moving along its width axis:
 
-They stand in for the two proprietary families used on cambridgema.gov, which
-are licensed through Adobe Fonts and may NOT be self-hosted or committed here:
+    Headlines, big figures            Noto Sans, width axis at 80%
+                                      (stands in for Cantabrigia)
+    Body copy                         Noto Sans, width axis at 100%
+    Tabs, buttons, links, captions    Noto Sans, width axis at 87.5%
+                                      (this is Noto Sans Condensed)
 
-    Aktiv Grotesk              -> substituted by Public Sans
-    Alternate Gothic No. 3 D   -> substituted by League Gothic
-
-The City's own Cantabrigia BT (© Bastarda Type Foundry) is likewise NOT
-included, pending confirmation of redistribution rights.
+Everything bundled here is under the SIL Open Font License, so this repository
+carries no font-licensing restrictions and can be published freely.
 
 
 --------------------------------------------------------------------------
-Public Sans
+A note on Cantabrigia
 --------------------------------------------------------------------------
-Files:      public-sans-latin.woff2, public-sans-latin-ext.woff2
-Version:    variable weight axis, 100-900
-Source:     https://github.com/uswds/public-sans
-Copyright:  Copyright 2015 The Public Sans Project Authors
-            (https://github.com/uswds/public-sans)
+Cantabrigia BT, the City's own display face, is deliberately NOT bundled here.
+It is licensed to the City by Bastarda Type Foundry: the City may embed it in
+the City's own sites, applications and documents, but sublicensing or
+redistribution to third parties is not permitted, and committing the files to a
+public repository would be redistribution.
+
+Condensed Noto Sans is the brand guidelines' own named substitute for it. If
+this explorer ever moves onto City-controlled hosting and the Communications
+Office would rather use the real face, add an @font-face block for it and put
+"Cantabrigia" at the front of the --display stack in assets/css/style.css.
+Nothing else has to change.
+
+
+--------------------------------------------------------------------------
+Noto Sans
+--------------------------------------------------------------------------
+Files:      noto-sans-latin.woff2, noto-sans-latin-ext.woff2
+Version:    variable, weight axis 400-700 and width axis 62.5%-100%
+Source:     https://fonts.google.com/noto/specimen/Noto+Sans
+Copyright:  Copyright 2022 The Noto Project Authors
+            (https://github.com/notofonts/latin-greek-cyrillic)
 Licence:    SIL Open Font License, Version 1.1
 
-Public Sans is a fork of Libre Franklin by the U.S. General Services
-Administration. GSA's modifications are dedicated to the public domain under
-CC0 1.0; the underlying Libre Franklin remains under the OFL. In practice the
-combined work is used under the terms of the OFL, reproduced below.
-
-
---------------------------------------------------------------------------
-League Gothic
---------------------------------------------------------------------------
-Files:      league-gothic-latin.woff2, league-gothic-latin-ext.woff2
-Source:     https://github.com/theleagueof/league-gothic
-Copyright:  Copyright (c) 2020, Caleb Maclennan <caleb@alerque>
-            Copyright (c) 2010-2012, Micah Rich <micah@micahrich.com>,
-              with Reserved Font Name: "League Gothic".
-            Copyright (c) 2010, Caroline Hadilaksono <caroline@hadilaksono>
-Licence:    SIL Open Font License, Version 1.1
-
-Reserved Font Name: "League Gothic". The files here are unmodified subsets
-(latin and latin-ext) and are not a Modified Version.
+The SIL Open Font License expressly permits bundling and redistribution —
+including in a public repository — provided this notice travels with the
+files. The two files here are the unmodified latin and latin-ext subsets
+served by Google Fonts, self-hosted so the page makes no third-party
+requests.
 
 
 ==========================================================================
